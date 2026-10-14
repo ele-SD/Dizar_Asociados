@@ -23,14 +23,15 @@ if (!isset($_SESSION["usuario_id"])) {
         <h1>¡Bienvenido!</h1>
         <p class="subtitulo">Sesión iniciada como <?php echo htmlspecialchars($_SESSION["correo"]); ?></p>
 
-<p class="pie" style="margin-top: 30px;">
-    <a href="logout.php">Cerrar sesión</a>
-</p>
+        <a href="apartado/ajustes.php" class="btn btn--dorado" style="display: block; text-align: center; margin-top: 15px;">Ajustes de la cuenta</a>
 
-<a href="index.php" class="btn btn--dorado" style="display: block; text-align: center; margin-top: 15px;">Volver a inicio</a>
+        <a href="index.php" class="btn btn--dorado" style="display: block; text-align: center; margin-top: 15px;">Volver a inicio</a>
+
+        <p class="pie" style="margin-top: 30px;">
+            <a href="logout.php">Cerrar sesión</a>
+        </p>
     </div>
 </div>
 
 </body>
 </html>
-

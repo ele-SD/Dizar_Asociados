@@ -1,6 +1,6 @@
 <?php
 session_start();
-$sesionActiva = isset($_SESSION["usuario_id"]);
+$base = '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -11,38 +11,7 @@ $sesionActiva = isset($_SESSION["usuario_id"]);
     <link rel="stylesheet" href="estilos/style.css">
 </head>
 <body>
-    <header class="header">
-        <nav class="nav">
-        <a href="index.php" class="nav_logo">
-            <img src="imagenes/isotipo-dorado1.png" alt="isotipo Dizar Asociados" class="nav_logo_img">
-            <span class="nav_logo_texto"> Dizar Asociados</span>
-        </a>
-        <ul class="nav_menu">
-            <li><a href="index.php">Inicio</a></li>
-            <li><a href="apartado/nosotros.php">Nosotros</a></li>
-            <li><a href="apartado/servicios.php">Servicios</a></li>
-            <li><a href="apartado/contacto.php">Contacto</a></li>
-        </ul>
-
-        <?php if ($sesionActiva): ?>
-            <div class="perfil_menu">
-                <button class="perfil_boton" id="perfilBoton">
-                    <svg viewBox="0 0 24 24" class="perfil_icono">
-                        <circle cx="12" cy="8" r="4"></circle>
-                        <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
-                    </svg>
-                </button>
-                <div class="perfil_dropdown" id="perfilDropdown">
-                    <p class="perfil_correo"><?= htmlspecialchars($_SESSION["correo"]) ?></p>
-                    <a href="dashboard.php">Mi cuenta</a>
-                    <a href="logout.php">Cerrar sesión</a>
-                </div>
-            </div>
-        <?php else: ?>
-            <a href="login.php" class="btn-login">Iniciar sesión</a>
-        <?php endif; ?>
-    </nav>
-</header>
+<?php include __DIR__ . '/includes/header.php'; ?>
 
 <main>
     <section class="hero">

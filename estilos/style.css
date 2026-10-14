@@ -652,6 +652,15 @@ ul {
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+/*ajustes de usuario*/
+
+.perfil-menu { position: relative; }
+.perfil-opciones { display: none; position: absolute; right: 0; min-width: 160px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+.perfil-menu:hover .perfil-opciones,
+.perfil-menu:focus-within .perfil-opciones { display: block; }
+.perfil-opciones a { display: block; padding: 10px 14px; }
+
+
 .contenedor-login .btn:hover {
     background-color: #b78f45;
     border-color: #b78f45;

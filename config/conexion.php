@@ -5,6 +5,8 @@ $usuario    = "root";
 $contraseña = "";
 $baseDatos  = "dizar_asociados";   
 
+require_once __DIR__ . '/../conexion.php';
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 try {
