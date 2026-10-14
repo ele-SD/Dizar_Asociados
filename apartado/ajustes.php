@@ -45,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $stmt->bind_param("ssi", $usuarioNombre, $correo, $id);
                 $stmt->execute();
                 $stmt->close();
+                $_SESSION["usuario"] = $usuarioNombre;
                 $_SESSION["correo"] = $correo;
                 $exito = "Datos actualizados.";
             }
@@ -121,7 +122,14 @@ $stmt->close();
             <button type="submit" class="btn">Guardar cambios</button>
         </form>
 
-        <h2>Cambiar contraseña</h2>
+        <?php $abrirPass = (($_POST["accion"] ?? "") === "contrasena" && $error !== ""); ?>
+<button type="button" class="btn-desplegar<?= $abrirPass ? ' abierto' : '' ?>" id="btnPassword" aria-expanded="<?= $abrirPass ? 'true' : 'false' ?>" aria-controls="panelPassword">
+    <span>Cambiar contraseña</span>
+    <span class="flecha"></span>
+</button>
+
+<div class="panel-desplegable<?= $abrirPass ? ' abierto' : '' ?>" id="panelPassword">
+    <div class="panel-interior">
         <form method="POST" action="ajustes.php">
             <input type="hidden" name="csrf" value="<?= $_SESSION["csrf"] ?>">
             <input type="hidden" name="accion" value="contrasena">
@@ -140,7 +148,16 @@ $stmt->close();
             <button type="submit" class="btn">Actualizar contraseña</button>
         </form>
     </div>
-</main>
+</div>
+
+<script>
+document.getElementById("btnPassword").addEventListener("click", function () {
+    const panel = document.getElementById("panelPassword");
+    const abierto = panel.classList.toggle("abierto");
+    this.classList.toggle("abierto", abierto);
+    this.setAttribute("aria-expanded", abierto);
+});
+</script> 
 
 <script src="../js/script.js"></script>
 </body>

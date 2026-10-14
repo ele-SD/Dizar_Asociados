@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "El correo ingresado no es válido.";
     } else {
         $sql = "SELECT id, correo, contrasena_hash, activo FROM usuarios WHERE correo = ?";
+        $sql = "SELECT id, usuario, correo, contrasena_hash, activo FROM usuarios WHERE correo = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param("s", $correo);
         $stmt->execute();
@@ -26,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $error = "Esta cuenta está desactivada. Contacta al despacho.";
             } elseif (password_verify($contrasena, $usuario["contrasena_hash"])) {
                 $_SESSION["usuario_id"] = $usuario["id"];
+                $_SESSION["usuario"] = $usuario["usuario"];
                 $_SESSION["correo"] = $usuario["correo"];
                 header("Location: dashboard.php");
                 exit();

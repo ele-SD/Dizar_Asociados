@@ -28,7 +28,7 @@ $sesionActiva = isset($_SESSION["usuario_id"]);
                     </svg>
                 </button>
                 <div class="perfil_dropdown" id="perfilDropdown">
-                    <p class="perfil_correo"><?= htmlspecialchars($_SESSION["correo"]) ?></p>
+                    <p class="perfil_correo"><?= htmlspecialchars($_SESSION["usuario"] ?? $_SESSION["correo"]) ?></p>
                     <a href="<?= $base ?>dashboard.php">Mi cuenta</a>
                     <a href="<?= $base ?>apartado/ajustes.php">Ajustes</a>
                     <a href="<?= $base ?>logout.php">Cerrar sesión</a>

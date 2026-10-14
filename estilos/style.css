@@ -661,9 +661,87 @@ ul {
 .perfil-opciones a { display: block; padding: 10px 14px; }
 
 
+.ajustes {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 16px;
+}
+
+.ajustes .contenedor-login {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.ajustes h2 {
+    font-size: 1.3rem;
+    text-align: center;
+    margin: 32px 0 16px;
+}
+
 .contenedor-login .btn:hover {
     background-color: #b78f45;
     border-color: #b78f45;
+}
+
+.btn-desplegar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: transparent;
+    color: #c9a25b;
+    border: 1px solid #c9a25b;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+.btn-desplegar:hover,
+.btn-desplegar.abierto {
+    background: rgba(201, 162, 91, 0.12);
+}
+
+.flecha {
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    margin-top: -4px;
+    transition: transform 0.3s ease, margin 0.3s ease;
+}
+
+.btn-desplegar.abierto .flecha {
+    transform: rotate(-135deg);
+    margin-top: 4px;
+}
+
+.panel-desplegable {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 0.4s ease, visibility 0.4s;
+}
+
+.panel-desplegable.abierto {
+    grid-template-rows: 1fr;
+    visibility: visible;
+}
+
+.panel-interior {
+    overflow: hidden;
+}
+
+.panel-interior form {
+    padding-top: 16px;
 }
 
 /* perfil (usuario logueado) */
