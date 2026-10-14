@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once "conexion.php";
+require_once __DIR__ . "/conexion.php";
+
 
 $error = "";
 
@@ -13,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
         $error = "El correo ingresado no es válido.";
     } else {
-        $sql = "SELECT id, correo, contrasena_hash, activo FROM usuarios WHERE correo = ?";
         $sql = "SELECT id, usuario, correo, contrasena_hash, activo FROM usuarios WHERE correo = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param("s", $correo);
@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if (!$usuario["activo"]) {
                 $error = "Esta cuenta está desactivada. Contacta al despacho.";
             } elseif (password_verify($contrasena, $usuario["contrasena_hash"])) {
+                session_regenerate_id(true);
                 $_SESSION["usuario_id"] = $usuario["id"];
                 $_SESSION["usuario"] = $usuario["usuario"];
                 $_SESSION["correo"] = $usuario["correo"];
@@ -47,13 +48,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Iniciar sesión | Dizar Asociados</title>
-<link rel="stylesheet" href="estilos/style.css">
+<link rel="stylesheet" href="../Vista/style.css">
 </head>
 <body>
 
 <div class="pagina-login">
     <div class="contenedor-login">
-        <img src="imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
+        <img src="../imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
         <h1>Bienvenido</h1>
         <p class="subtitulo">Inicia sesión para continuar</p>
 

@@ -1,5 +1,5 @@
 <?php
-require_once "conexion.php";
+require_once __DIR__ . "/conexion.php";
 
 $error = "";
 $exito = "";
@@ -56,13 +56,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Crear cuenta | Dizar Asociados</title>
-<link rel="stylesheet" href="estilos/style.css">
+<link rel="stylesheet" href="../Vista/style.css">
 </head>
 <body>
 
 <div class="pagina-login">
     <div class="contenedor-login">
-        <img src="imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
+        <img src="../imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
         <h1>Crear cuenta</h1>
         <p class="subtitulo">Regístrate para acceder al portal</p>
 
