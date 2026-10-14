@@ -1,7 +1,4 @@
 <?php
-// ============================================
-// Conexión a la base de datos (MariaDB / XAMPP)
-// ============================================
 
 $servidor = "localhost";
 $usuario = "root";
