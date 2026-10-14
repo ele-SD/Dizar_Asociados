@@ -1,6 +1,6 @@
 <?php
 session_start();
-$base = '';
+$base = '../';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -8,10 +8,10 @@ $base = '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dizar Asociados | Firma de Abogados</title>
-    <link rel="stylesheet" href="estilos/style.css">
+    <link rel="stylesheet" href="../Vista/style.css">
 </head>
 <body>
-<?php include __DIR__ . '/includes/header.php'; ?>
+<?php include __DIR__ . '/../includes/header.php'; ?>
 
 <main>
     <section class="hero">
@@ -23,8 +23,8 @@ $base = '';
         </p>
 
         <div class="hero_botones">
-    <a href="apartado/contacto.php" class="btn btn--dorado">Agendar consulta</a>
-    <a href="apartado/nosotros.php" class="btn btn--contorno">Conocer el Despacho</a>
+    <a href="../apartado/contacto.php" class="btn btn--dorado">Agendar consulta</a>
+    <a href="../apartado/nosotros.php" class="btn btn--contorno">Conocer el Despacho</a>
 </div>
         </div>
     </section>
@@ -64,6 +64,6 @@ $base = '';
     <p>&copy; 2026 Dizar Asociados - Firma de abogados </p>
 </footer>
 
-<script src="js/script.js"></script>
+<script src="../Controlador/script.js"></script>
 </body>
 </html>
