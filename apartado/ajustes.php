@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once __DIR__ . '/../conexion.php';
+require_once __DIR__ . '/../Principal/conexion.php';
 
 if (!isset($_SESSION["usuario_id"])) {
-    header("Location: ../login.php");
+    header("Location: ../Principal/login.php");
     exit();
 }
 
@@ -75,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bind_param("si", $hash, $id);
             $stmt->execute();
             $stmt->close();
+            session_regenerate_id(true);
             $exito = "Contraseña actualizada.";
         }
     }
@@ -92,7 +93,7 @@ $stmt->close();
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ajustes | Dizar Asociados</title>
-<link rel="stylesheet" href="../estilos/style.css">
+<link rel="stylesheet" href="../Vista/style.css">
 </head>
 <body>
 <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -149,6 +150,8 @@ $stmt->close();
         </form>
     </div>
 </div>
+    </div>
+</main>
 
 <script>
 document.getElementById("btnPassword").addEventListener("click", function () {
@@ -159,6 +162,6 @@ document.getElementById("btnPassword").addEventListener("click", function () {
 });
 </script> 
 
-<script src="../js/script.js"></script>
+<script src="../Controlador/script.js"></script>
 </body>
 </html>

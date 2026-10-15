@@ -8,7 +8,7 @@ $base = '../';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servicios | Dizar Asociados </title>
-    <link rel="stylesheet" href="../estilos/style.css">
+    <link rel="stylesheet" href="../Vista/style.css">
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -49,6 +49,6 @@ $base = '../';
     <p>&copy; 2026 Dizar Asociados - Firma de abogados </p>
 </footer>
 
-<script src="../js/script.js"></script>
+<script src="../Controlador/script.js"></script>
 </body>
 </html>
