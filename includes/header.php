@@ -2,7 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// $base = '' en la raíz, '../' dentro de apartado/
+
 $base = $base ?? '';
 $sesionActiva = isset($_SESSION["usuario_id"]);
 ?>
@@ -27,7 +27,14 @@ $sesionActiva = isset($_SESSION["usuario_id"]);
                         <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
                     </svg>
                 </button>
+                <span class="perfil_nombre"><?= htmlspecialchars($_SESSION["usuario"] ?? "") ?></span>
                 <div class="perfil_dropdown" id="perfilDropdown">
+                    <?php if (($_SESSION["rol"] ?? "") === "admin"): ?>
+                    <a href="<?= $base ?>apartado/usuarios.php">Usuarios</a>
+                    <?php endif; ?>
+                    <?php if (in_array($_SESSION["rol"] ?? "", ["admin", "abogado"], true)): ?>
+                    <a href="<?= $base ?>apartado/consultas.php">Consultas</a>
+                    <?php endif; ?>
                     <p class="perfil_correo"><?= htmlspecialchars($_SESSION["usuario"] ?? $_SESSION["correo"]) ?></p>
                     <a href="<?= $base ?>Principal/dashboard.php">Mi cuenta</a>
                     <a href="<?= $base ?>apartado/ajustes.php">Ajustes</a>

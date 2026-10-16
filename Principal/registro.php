@@ -66,25 +66,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h1>Crear cuenta</h1>
         <p class="subtitulo">Regístrate para acceder al portal</p>
 
-        <?php if (!empty($error)): ?>
-            <div class="error"><?php echo htmlspecialchars($error); ?></div>
-        <?php endif; ?>
-
         <?php if (!empty($exito)): ?>
-            <div class="exito"><?php echo htmlspecialchars($exito); ?></div>
-        <?php endif; ?>
+            <div class="registro_ok" role="status">
+                <h2>Cuenta creada</h2>
+                <p>Tu registro quedó guardado. Ya puedes iniciar sesión.</p>
+                <a href="login.php" class="btn">Ir a iniciar sesión</a>
+            </div>
+        <?php else: ?>
 
         <form action="registro.php" method="POST" id="formRegistro" novalidate>
             <div class="campo">
                 <label for="usuario">Nombre de usuario</label>
                 <input type="text" id="usuario" name="usuario" placeholder="Ej. jperez" required
                        value="<?php echo isset($_POST['usuario']) ? htmlspecialchars($_POST['usuario']) : ''; ?>">
+                <small class="campo_msg"></small>
             </div>
 
             <div class="campo">
                 <label for="correo">Correo electrónico</label>
                 <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com" required
                        value="<?php echo isset($_POST['correo']) ? htmlspecialchars($_POST['correo']) : ''; ?>">
+                <small class="campo_msg"></small>
             </div>
 
             <div class="fila-documento">
@@ -95,79 +97,100 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <option value="CC">Cédula de ciudadanía</option>
                         <option value="CE">Cédula de extranjería</option>
                     </select>
+                    <small class="campo_msg"></small>
                 </div>
 
                 <div class="campo">
                     <label for="numero_documento">Número de documento</label>
                     <input type="text" id="numero_documento" name="numero_documento" placeholder="1234567890" required
                            value="<?php echo isset($_POST['numero_documento']) ? htmlspecialchars($_POST['numero_documento']) : ''; ?>">
+                    <small class="campo_msg"></small>
                 </div>
             </div>
 
             <div class="campo">
                 <label for="contrasena">Contraseña</label>
                 <input type="password" id="contrasena" name="contrasena" placeholder="Mínimo 6 caracteres" required>
+                <small class="campo_msg"></small>
             </div>
 
             <div class="campo">
                 <label for="confirmar_contrasena">Confirmar contraseña</label>
                 <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" placeholder="Repite tu contraseña" required>
+                <small class="campo_msg"></small>
             </div>
+
+            <?php if (!empty($error)): ?>
+                <p class="form_error" id="errorServidor" role="alert"><?php echo htmlspecialchars($error); ?></p>
+            <?php endif; ?>
 
             <button type="submit" class="btn">Crear cuenta</button>
         </form>
 
         <p class="pie">¿Ya tienes cuenta? <a href="login.php">Iniciar sesión</a></p>
+
+        <?php endif; ?>
     </div>
 </div>
 
 <script>
-document.getElementById("formRegistro").addEventListener("submit", function (e) {
-    const correo = document.getElementById("correo").value.trim();
-    const usuario = document.getElementById("usuario").value.trim();
-    const tipoDocumento = document.getElementById("tipo_documento").value;
-    const numeroDocumento = document.getElementById("numero_documento").value.trim();
-    const contrasena = document.getElementById("contrasena").value;
-    const confirmar = document.getElementById("confirmar_contrasena").value;
+const formRegistro = document.getElementById("formRegistro");
 
-    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const regexDocumento = /^[0-9]{5,15}$/;
-
-    if (usuario === "") {
-        alert("Ingresa un nombre de usuario.");
-        e.preventDefault();
-        return;
+if (formRegistro) {
+    function limpiarErrores() {
+        document.querySelectorAll(".campo--error").forEach(function (c) {
+            c.classList.remove("campo--error");
+        });
+        const srv = document.getElementById("errorServidor");
+        if (srv) srv.remove();
     }
 
-    if (!regexCorreo.test(correo)) {
-        alert("Ingresa un correo electrónico válido.");
-        e.preventDefault();
-        return;
+    function mostrarError(input, mensaje) {
+        limpiarErrores();
+        const campo = input.closest(".campo");
+        campo.querySelector(".campo_msg").textContent = mensaje;
+        campo.classList.add("campo--error");
+        input.focus();
     }
 
-    if (tipoDocumento === "") {
-        alert("Selecciona un tipo de documento.");
-        e.preventDefault();
-        return;
-    }
+    formRegistro.querySelectorAll("input, select").forEach(function (el) {
+        el.addEventListener("input", limpiarErrores);
+        el.addEventListener("change", limpiarErrores);
+    });
 
-    if (!regexDocumento.test(numeroDocumento)) {
-        alert("El número de documento debe contener solo dígitos (5 a 15).");
-        e.preventDefault();
-        return;
-    }
+    formRegistro.addEventListener("submit", function (e) {
+        const usuario = document.getElementById("usuario");
+        const correo = document.getElementById("correo");
+        const tipoDocumento = document.getElementById("tipo_documento");
+        const numeroDocumento = document.getElementById("numero_documento");
+        const contrasena = document.getElementById("contrasena");
+        const confirmar = document.getElementById("confirmar_contrasena");
 
-    if (contrasena.length < 6) {
-        alert("La contraseña debe tener al menos 6 caracteres.");
-        e.preventDefault();
-        return;
-    }
+        const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const regexDocumento = /^[0-9]{5,15}$/;
 
-    if (contrasena !== confirmar) {
-        alert("Las contraseñas no coinciden.");
-        e.preventDefault();
-    }
-});
+        let fallo = null;
+
+        if (usuario.value.trim() === "") {
+            fallo = [usuario, "Escribe un nombre de usuario."];
+        } else if (!regexCorreo.test(correo.value.trim())) {
+            fallo = [correo, "Escribe un correo válido, por ejemplo nombre@correo.com"];
+        } else if (tipoDocumento.value === "") {
+            fallo = [tipoDocumento, "Elige un tipo de documento."];
+        } else if (!regexDocumento.test(numeroDocumento.value.trim())) {
+            fallo = [numeroDocumento, "Solo números, entre 5 y 15 dígitos."];
+        } else if (contrasena.value.length < 6) {
+            fallo = [contrasena, "Mínimo 6 caracteres."];
+        } else if (contrasena.value !== confirmar.value) {
+            fallo = [confirmar, "Las contraseñas no coinciden."];
+        }
+
+        if (fallo) {
+            mostrarError(fallo[0], fallo[1]);
+            e.preventDefault();
+        }
+    });
+}
 </script>
 
 </body>

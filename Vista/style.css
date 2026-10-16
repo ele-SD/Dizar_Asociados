@@ -828,3 +828,136 @@ ul {
 .nav_logo_texto {
     font-size: 1.1rem;
 }
+
+/* mensaje de error bajo el campo (login) */
+.campo_msg {
+    display: none;
+    margin-top: 6px;
+    font-size: 12.5px;
+    color: #e07a7a;
+}
+
+.campo--error .campo_msg {
+    display: block;
+}
+
+.campo.campo--error input,
+.campo.campo--error input:focus,
+.campo.campo--error select,
+.campo.campo--error select:focus {
+    border-color: #c0504d;
+}
+
+/* error general del formulario (sin caja) */
+.form_error {
+    margin-bottom: 14px;
+    font-size: 12.5px;
+    color: #e07a7a;
+}
+
+/* confirmación de cuenta creada */
+.registro_ok {
+    text-align: center;
+    padding: 10px 0 6px;
+}
+
+.registro_ok h2 {
+    font-family: var(--fuente-titulos);
+    font-size: 1.1rem;
+    color: var(--color-dorado);
+    margin-bottom: 8px;
+}
+
+.registro_ok p {
+    font-size: 14px;
+    color: var(--color-gris-texto);
+    margin-bottom: 20px;
+}
+
+.registro_ok .btn {
+    display: block;
+    text-align: center;
+}
+
+/* nombre debajo del icono de la cuenta */
+.perfil_menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.perfil_nombre {
+    margin-top: 4px;
+    max-width: 110px;
+    font-size: 0.75rem;
+    color: var(--color-dorado);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.perfil_menu .perfil_dropdown {
+    top: calc(100% + 8px);
+}
+
+.usuarios {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 16px;
+}
+
+.usuarios h1 {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.tabla-scroll {
+    overflow-x: auto;
+}
+
+.tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-usuarios th,
+.tabla-usuarios td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(201, 162, 91, 0.25);
+}
+
+.tabla-usuarios th {
+    color: #c9a25b;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.fila-rol {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.fila-rol select {
+    background: #000;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font: inherit;
+}
+
+.fila-rol .btn {
+    width: auto;
+    padding: 8px 14px;
+}
+
+.filtros-estado { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.filtro { padding: 6px 14px; border: 1px solid #c9a24b; border-radius: 20px;
+          color: #c9a24b; text-decoration: none; font-size: 0.9rem; }
+.filtro--activo, .filtro:hover { background: #c9a24b; color: #111; }
+.consulta_mensaje summary { cursor: pointer; }
+.consulta_mensaje p { margin-top: 8px; max-width: 360px; }
+.consultas_vacio { margin-top: 24px; opacity: 0.8; }

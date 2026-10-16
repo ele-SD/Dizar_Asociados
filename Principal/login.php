@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
         $error = "El correo ingresado no es válido.";
     } else {
-        $sql = "SELECT id, usuario, correo, contrasena_hash, activo FROM usuarios WHERE correo = ?";
+        $sql = "SELECT id, usuario, correo, rol, contrasena_hash, activo FROM usuarios WHERE correo = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param("s", $correo);
         $stmt->execute();
@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["usuario_id"] = $usuario["id"];
                 $_SESSION["usuario"] = $usuario["usuario"];
                 $_SESSION["correo"] = $usuario["correo"];
+                $_SESSION["rol"] = $usuario["rol"];
                 header("Location: dashboard.php");
                 exit();
             } else {
@@ -58,20 +59,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h1>Bienvenido</h1>
         <p class="subtitulo">Inicia sesión para continuar</p>
 
-        <?php if (!empty($error)): ?>
-            <div class="error"><?php echo htmlspecialchars($error); ?></div>
-        <?php endif; ?>
-
         <form action="login.php" method="POST" id="formLogin" novalidate>
             <div class="campo">
                 <label for="correo">Correo electrónico</label>
                 <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com" required
                        value="<?php echo isset($_POST['correo']) ? htmlspecialchars($_POST['correo']) : ''; ?>">
+                <small class="campo_msg" id="msgCorreo"></small>
             </div>
 
-            <div class="campo">
+            <div class="campo<?php echo !empty($error) ? ' campo--error' : ''; ?>">
                 <label for="contrasena">Contraseña</label>
                 <input type="password" id="contrasena" name="contrasena" placeholder="••••••••" required>
+                <small class="campo_msg" id="msgContrasena" role="alert"><?php echo htmlspecialchars($error); ?></small>
             </div>
 
             <button type="submit" class="btn">Iniciar sesión</button>
@@ -86,19 +85,38 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </div>
 
 <script>
+const campoCorreo = document.getElementById("correo");
+const campoContrasena = document.getElementById("contrasena");
+
+function limpiarErrores() {
+    document.querySelectorAll(".campo--error").forEach(function (c) {
+        c.classList.remove("campo--error");
+    });
+}
+
+function mostrarError(input, mensaje) {
+    limpiarErrores();
+    const campo = input.closest(".campo");
+    campo.querySelector(".campo_msg").textContent = mensaje;
+    campo.classList.add("campo--error");
+    input.focus();
+}
+
+campoCorreo.addEventListener("input", limpiarErrores);
+campoContrasena.addEventListener("input", limpiarErrores);
+
 document.getElementById("formLogin").addEventListener("submit", function (e) {
-    const correo = document.getElementById("correo").value.trim();
-    const contrasena = document.getElementById("contrasena").value;
+    const correo = campoCorreo.value.trim();
     const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!regexCorreo.test(correo)) {
-        alert("Ingresa un correo electrónico válido.");
+        mostrarError(campoCorreo, "Escribe un correo válido, por ejemplo nombre@correo.com");
         e.preventDefault();
         return;
     }
 
-    if (contrasena.length < 6) {
-        alert("La contraseña debe tener al menos 6 caracteres.");
+    if (campoContrasena.value.length < 6) {
+        mostrarError(campoContrasena, "Mínimo 6 caracteres.");
         e.preventDefault();
     }
 });

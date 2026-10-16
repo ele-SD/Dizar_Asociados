@@ -21,7 +21,7 @@ if (!isset($_SESSION["usuario_id"])) {
     <div class="contenedor-login">
         <img src="../imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
         <h1>¡Bienvenido!</h1>
-        <p class="subtitulo">Sesión iniciada como <?php echo htmlspecialchars($_SESSION["correo"]); ?></p>
+        <p class="subtitulo">Rol: <?php echo htmlspecialchars($_SESSION["rol"] ?? "sin rol"); ?></p>
 
         <a href="../apartado/ajustes.php" class="btn btn--dorado" style="display: block; text-align: center; margin-top: 15px;">Ajustes de la cuenta</a>
 
