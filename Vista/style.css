@@ -829,85 +829,76 @@ ul {
     font-size: 1.1rem;
 }
 
-/* mensaje de error bajo el campo (login) */
+/* ==========================================================
+   AÑADIDO: errores en línea, nombre en el menú, panel del personal
+   ========================================================== */
+
+/* Errores en línea (login y registro) */
 .campo_msg {
-    display: none;
-    margin-top: 6px;
-    font-size: 12.5px;
-    color: #e07a7a;
-}
-
-.campo--error .campo_msg {
     display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #ff9b9b;
 }
 
-.campo.campo--error input,
-.campo.campo--error input:focus,
-.campo.campo--error select,
-.campo.campo--error select:focus {
-    border-color: #c0504d;
+.campo_msg:empty {
+    display: none;
 }
 
-/* error general del formulario (sin caja) */
+.campo--error input,
+.campo--error select {
+    border-color: #c82828;
+}
+
 .form_error {
-    margin-bottom: 14px;
-    font-size: 12.5px;
-    color: #e07a7a;
+    background: rgba(200, 40, 40, 0.15);
+    border: 1px solid #c82828;
+    color: #ff9b9b;
+    padding: 10px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+    margin-bottom: 18px;
 }
 
-/* confirmación de cuenta creada */
 .registro_ok {
     text-align: center;
-    padding: 10px 0 6px;
+    padding: 10px 0;
 }
 
 .registro_ok h2 {
-    font-family: var(--fuente-titulos);
-    font-size: 1.1rem;
     color: var(--color-dorado);
+    font-size: 1.3rem;
     margin-bottom: 8px;
 }
 
 .registro_ok p {
-    font-size: 14px;
     color: var(--color-gris-texto);
-    margin-bottom: 20px;
+    font-size: 14px;
+    margin-bottom: 18px;
 }
 
-.registro_ok .btn {
-    display: block;
-    text-align: center;
-}
-
-/* nombre debajo del icono de la cuenta */
+/* Nombre del usuario junto al icono de perfil */
 .perfil_menu {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    gap: 0.6rem;
 }
 
 .perfil_nombre {
-    margin-top: 4px;
-    max-width: 110px;
-    font-size: 0.75rem;
-    color: var(--color-dorado);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 0.9rem;
+    color: var(--color-gris-texto);
 }
 
-.perfil_menu .perfil_dropdown {
-    top: calc(100% + 8px);
-}
-
+/* Gestión de usuarios y consultas (personal del despacho) */
 .usuarios {
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 40px 16px;
+    padding: 40px 5%;
 }
 
 .usuarios h1 {
-    text-align: center;
+    font-family: var(--fuente-titulos);
+    font-size: 1.8rem;
     margin-bottom: 24px;
 }
 
@@ -918,19 +909,21 @@ ul {
 .tabla-usuarios {
     width: 100%;
     border-collapse: collapse;
+    font-size: 14px;
 }
 
 .tabla-usuarios th,
 .tabla-usuarios td {
-    padding: 12px;
     text-align: left;
-    border-bottom: 1px solid rgba(201, 162, 91, 0.25);
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    vertical-align: top;
 }
 
 .tabla-usuarios th {
-    color: #c9a25b;
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
+    color: var(--color-dorado);
+    font-size: 12px;
+    letter-spacing: 1px;
     text-transform: uppercase;
 }
 
@@ -941,23 +934,51 @@ ul {
 }
 
 .fila-rol select {
-    background: #000;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    padding: 8px 10px;
-    font: inherit;
+    padding: 8px;
+    background: var(--color-negro);
+    color: var(--color-blanco);
+    border: 1px solid #333;
+    border-radius: 5px;
 }
 
 .fila-rol .btn {
-    width: auto;
     padding: 8px 14px;
+    font-size: 0.75rem;
 }
 
-.filtros-estado { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
-.filtro { padding: 6px 14px; border: 1px solid #c9a24b; border-radius: 20px;
-          color: #c9a24b; text-decoration: none; font-size: 0.9rem; }
-.filtro--activo, .filtro:hover { background: #c9a24b; color: #111; }
-.consulta_mensaje summary { cursor: pointer; }
-.consulta_mensaje p { margin-top: 8px; max-width: 360px; }
-.consultas_vacio { margin-top: 24px; opacity: 0.8; }
+/* Filtros de la vista de consultas */
+.filtros-estado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.filtro {
+    padding: 6px 14px;
+    border: 1px solid var(--color-dorado);
+    border-radius: 20px;
+    color: var(--color-dorado);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.filtro--activo,
+.filtro:hover {
+    background: var(--color-dorado);
+    color: var(--color-azul-oscuro);
+}
+
+.consulta_mensaje summary {
+    cursor: pointer;
+}
+
+.consulta_mensaje p {
+    margin-top: 8px;
+    max-width: 360px;
+}
+
+.consultas_vacio {
+    margin-top: 24px;
+    opacity: 0.8;
+}

@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once __DIR__ . '/../Principal/conexion.php';
+require_once __DIR__ . '/../Modelo/conexion.php';
 
 if (!isset($_SESSION["usuario_id"])) {
-    header("Location: ../Principal/login.php");
+    header("Location: login.php");
     exit();
 }
 
@@ -96,7 +96,7 @@ $stmt->close();
 <link rel="stylesheet" href="../Vista/style.css">
 </head>
 <body>
-<?php include __DIR__ . '/../includes/header.php'; ?>
+<?php include __DIR__ . '/header.php'; ?>
 
 <main class="ajustes">
     <div class="contenedor-login">

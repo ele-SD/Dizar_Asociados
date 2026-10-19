@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // Exige haber iniciado sesión
 function requerir_login(string $base = '../'): void {
     if (!isset($_SESSION["usuario_id"])) {
-        header("Location: {$base}Principal/login.php");
+        header("Location: {$base}Vista/login.php");
         exit();
     }
 }

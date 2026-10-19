@@ -11,7 +11,7 @@ $base = '../';
     <link rel="stylesheet" href="../Vista/style.css">
 </head>
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
+    <?php include __DIR__ . '/header.php'; ?>
 
 <main>
     <section class="servicios">

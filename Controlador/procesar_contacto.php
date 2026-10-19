@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once __DIR__ . '/../Principal/conexion.php';
+require_once __DIR__ . '/../Modelo/conexion.php';
 
 // Solo se acepta por POST
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    header("Location: contacto.php");
+    header("Location: ../Vista/contacto.php");
     exit();
 }
 
@@ -15,7 +15,7 @@ if (empty($_SESSION["csrf"]) || !hash_equals($_SESSION["csrf"], $_POST["csrf"] ?
 
 // Honeypot anti-spam: un humano nunca llena este campo (está oculto)
 if (!empty($_POST["sitio_web"] ?? "")) {
-    header("Location: contacto.php");
+    header("Location: ../Vista/contacto.php");
     exit();
 }
 
@@ -23,7 +23,7 @@ if (!empty($_POST["sitio_web"] ?? "")) {
 function volver(string $tipo, string $mensaje, array $viejos = []): void {
     $_SESSION["flash_contacto"] = ["tipo" => $tipo, "mensaje" => $mensaje];
     $_SESSION["viejos_contacto"] = $viejos;
-    header("Location: contacto.php");
+    header("Location: ../Vista/contacto.php");
     exit();
 }
 

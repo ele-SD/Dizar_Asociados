@@ -1,8 +1,10 @@
 <?php
 session_start();
-require_once __DIR__ . "/conexion.php";
+require_once __DIR__ . "/../Modelo/conexion.php";
 
-
+// Configuración del bloqueo
+const MAX_INTENTOS = 5;      
+const MINUTOS_BLOQUEO = 15;  
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -14,18 +16,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
         $error = "El correo ingresado no es válido.";
     } else {
-        $sql = "SELECT id, usuario, correo, rol, contrasena_hash, activo FROM usuarios WHERE correo = ?";
+       
+        $sql = "SELECT id, usuario, correo, rol, contrasena_hash, activo, intentos_fallidos,
+                       (bloqueado_hasta IS NOT NULL AND bloqueado_hasta > NOW()) AS bloqueado,
+                       CEIL(TIMESTAMPDIFF(SECOND, NOW(), bloqueado_hasta) / 60) AS minutos_restantes
+                FROM usuarios WHERE correo = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param("s", $correo);
         $stmt->execute();
         $resultado = $stmt->get_result();
+        $stmt->close();
 
         if ($resultado->num_rows === 1) {
             $usuario = $resultado->fetch_assoc();
 
             if (!$usuario["activo"]) {
                 $error = "Esta cuenta está desactivada. Contacta al despacho.";
+
+            } elseif ($usuario["bloqueado"]) {
+                // Mientras esté bloqueada ni siquiera se revisa la contraseña
+                $min = max(1, (int) $usuario["minutos_restantes"]);
+                $error = "Demasiados intentos fallidos. Intenta de nuevo en $min minuto" . ($min === 1 ? "" : "s") . ".";
+
             } elseif (password_verify($contrasena, $usuario["contrasena_hash"])) {
+                // Acierto: se reinicia el contador
+                $stmt = $conexion->prepare("UPDATE usuarios SET intentos_fallidos = 0, bloqueado_hasta = NULL WHERE id = ?");
+                $stmt->bind_param("i", $usuario["id"]);
+                $stmt->execute();
+                $stmt->close();
+
                 session_regenerate_id(true);
                 $_SESSION["usuario_id"] = $usuario["id"];
                 $_SESSION["usuario"] = $usuario["usuario"];
@@ -33,13 +52,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["rol"] = $usuario["rol"];
                 header("Location: dashboard.php");
                 exit();
+
             } else {
-                $error = "Correo o contraseña incorrectos.";
+                // Fallo: se suma un intento y, al llegar al máximo, se bloquea
+                $intentos = (int) $usuario["intentos_fallidos"] + 1;
+
+                if ($intentos >= MAX_INTENTOS) {
+                    $minutos = MINUTOS_BLOQUEO;
+                    $stmt = $conexion->prepare("UPDATE usuarios SET intentos_fallidos = 0, bloqueado_hasta = DATE_ADD(NOW(), INTERVAL ? MINUTE) WHERE id = ?");
+                    $stmt->bind_param("ii", $minutos, $usuario["id"]);
+                    $error = "Demasiados intentos fallidos. Tu cuenta quedó bloqueada por " . MINUTOS_BLOQUEO . " minutos.";
+                } else {
+                    $stmt = $conexion->prepare("UPDATE usuarios SET intentos_fallidos = ? WHERE id = ?");
+                    $stmt->bind_param("ii", $intentos, $usuario["id"]);
+                    $error = "Correo o contraseña incorrectos.";
+                }
+                $stmt->execute();
+                $stmt->close();
             }
         } else {
             $error = "Correo o contraseña incorrectos.";
         }
-        $stmt->close();
     }
 }
 ?>

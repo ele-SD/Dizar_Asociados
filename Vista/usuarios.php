@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../Principal/conexion.php';
+require_once __DIR__ . '/../Controlador/auth.php';
+require_once __DIR__ . '/../Modelo/conexion.php';
 
 // Solo el administrador puede entrar aquí -.-
 requerir_rol(['admin']);
@@ -49,7 +49,7 @@ $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
 <link rel="stylesheet" href="../Vista/style.css">
 </head>
 <body>
-<?php include __DIR__ . '/../includes/header.php'; ?>
+<?php include __DIR__ . '/header.php'; ?>
 
 <main class="usuarios">
     <h1>Gestión de usuarios</h1>

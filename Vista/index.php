@@ -11,7 +11,7 @@ $base = '../';
     <link rel="stylesheet" href="../Vista/style.css">
 </head>
 <body>
-<?php include __DIR__ . '/../includes/header.php'; ?>
+<?php include __DIR__ . '/header.php'; ?>
 
 <main>
     <section class="hero">
@@ -23,8 +23,8 @@ $base = '../';
         </p>
 
         <div class="hero_botones">
-    <a href="../apartado/contacto.php" class="btn btn--dorado">Agendar consulta</a>
-    <a href="../apartado/nosotros.php" class="btn btn--contorno">Conocer el Despacho</a>
+    <a href="../Vista/contacto.php" class="btn btn--dorado">Agendar consulta</a>
+    <a href="../Vista/nosotros.php" class="btn btn--contorno">Conocer el Despacho</a>
 </div>
         </div>
     </section>

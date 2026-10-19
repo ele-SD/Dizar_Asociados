@@ -24,7 +24,7 @@ function viejo(array $viejos, string $campo): string {
     <link rel="stylesheet" href="../Vista/style.css">
 </head>
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
+    <?php include __DIR__ . '/header.php'; ?>
 
     <main>
         <section class="contacto">
@@ -41,7 +41,7 @@ function viejo(array $viejos, string $campo): string {
             <?php endif; ?>
 
             <div class="contacto_grid">
-                <form class="contacto_form" method="POST" action="procesar_contacto.php">
+                <form class="contacto_form" method="POST" action="../Controlador/procesar_contacto.php">
                     <input type="hidden" name="csrf" value="<?= $_SESSION["csrf"] ?>">
 
                     <!-- Honeypot anti-spam: oculto para personas -->
