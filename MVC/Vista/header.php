@@ -2,11 +2,15 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Todas las páginas están dentro de Vista/, así que '../' sube a la raíz del proyecto
+
 $base = $base ?? '../';
 $sesionActiva = isset($_SESSION["usuario_id"]);
 $rolActual = $_SESSION["rol"] ?? "";
 $esPersonal = in_array($rolActual, ["admin", "abogado"], true);
+
+$nombreUsuario = $_SESSION["usuario"] ?? "";
+$etiquetasRol = ["admin" => "Administrador", "abogado" => "Abogado", "cliente" => "Cliente"];
+$rolTexto = $etiquetasRol[$rolActual] ?? "";
 ?>
 <header class="header">
     <nav class="nav">
@@ -29,18 +33,24 @@ $esPersonal = in_array($rolActual, ["admin", "abogado"], true);
                         <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
                     </svg>
                 </button>
-                <span class="perfil_nombre"><?= htmlspecialchars($_SESSION["usuario"] ?? "") ?></span>
+                <span class="perfil_nombre"><?= htmlspecialchars($nombreUsuario) ?></span>
                 <div class="perfil_dropdown" id="perfilDropdown">
-                    <p class="perfil_correo"><?= htmlspecialchars($_SESSION["correo"] ?? "") ?></p>
-                    <a href="<?= $base ?>Vista/dashboard.php">Mi cuenta</a>
+                    <div class="perfil_cabecera">
+                        <span class="perfil_cabecera_nombre"><?= htmlspecialchars($nombreUsuario) ?></span>
+                        <?php if ($rolTexto !== ""): ?>
+                            <span class="perfil_cabecera_rol"><?= $rolTexto ?></span>
+                        <?php endif; ?>
+                    </div>
+
+                    <a class="perfil_enlace" href="<?= $base ?>Vista/dashboard.php">Mi cuenta</a>
                     <?php if ($esPersonal): ?>
-                        <a href="<?= $base ?>Vista/consultas.php">Consultas</a>
+                        <a class="perfil_enlace" href="<?= $base ?>Vista/consultas.php">Consultas</a>
                     <?php endif; ?>
                     <?php if ($rolActual === "admin"): ?>
-                        <a href="<?= $base ?>Vista/usuarios.php">Usuarios</a>
+                        <a class="perfil_enlace" href="<?= $base ?>Vista/usuarios.php">Usuarios</a>
                     <?php endif; ?>
-                    <a href="<?= $base ?>Vista/ajustes.php">Ajustes</a>
-                    <a href="<?= $base ?>Controlador/logout.php">Cerrar sesión</a>
+                    <a class="perfil_enlace" href="<?= $base ?>Vista/ajustes.php">Ajustes</a>
+                    <a class="perfil_enlace perfil_enlace--salir" href="<?= $base ?>Controlador/logout.php">Cerrar sesión</a>
                 </div>
             </div>
         <?php else: ?>

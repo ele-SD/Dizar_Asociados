@@ -982,3 +982,93 @@ ul {
     margin-top: 24px;
     opacity: 0.8;
 }
+
+/* ===== Menú del perfil ===== */
+.perfil_menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.perfil_boton {
+    transition: background 0.18s ease;
+}
+
+.perfil_boton:hover {
+    background: rgba(201, 162, 91, 0.12);
+}
+
+.perfil_dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    z-index: 50;
+    display: block;
+    min-width: 230px;
+    padding: 8px;
+    background: #0e0a30;
+    border: 1px solid rgba(201, 162, 91, 0.45);
+    border-radius: 10px;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+}
+
+.perfil_dropdown.activo {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.perfil_cabecera {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 12px 12px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(201, 162, 91, 0.25);
+}
+
+.perfil_cabecera_nombre {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.perfil_cabecera_rol {
+    color: #c9a25b;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.perfil_dropdown .perfil_enlace {
+    display: block;
+    padding: 9px 12px;
+    border-radius: 6px;
+    color: #e9e6f5;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.perfil_dropdown .perfil_enlace:hover,
+.perfil_dropdown .perfil_enlace:focus-visible {
+    background: rgba(201, 162, 91, 0.14);
+    color: #c9a25b;
+    outline: none;
+}
+
+.perfil_dropdown .perfil_enlace--salir {
+    margin-top: 6px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(201, 162, 91, 0.25);
+    border-radius: 0 0 6px 6px;
+    color: #b9b4d6;
+}
