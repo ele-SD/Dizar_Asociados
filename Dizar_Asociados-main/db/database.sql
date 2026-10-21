@@ -1,0 +1,84 @@
+
+
+CREATE DATABASE IF NOT EXISTS despacho_abogados CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE despacho_abogados;
+
+-- Servicios
+CREATE TABLE IF NOT EXISTS servicios (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL UNIQUE,
+    descripcion TEXT NOT NULL,
+    activo TINYINT(1) NOT NULL DEFAULT 1,
+    creado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Abogados
+CREATE TABLE IF NOT EXISTS abogados (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(120) NOT NULL,
+    especialidad VARCHAR(100) NOT NULL,
+    tarjeta_profesional VARCHAR(30) DEFAULT NULL,
+    correo VARCHAR(120) DEFAULT NULL,
+    foto VARCHAR(255) DEFAULT NULL,
+    biografia TEXT,
+    activo TINYINT(1) NOT NULL DEFAULT 1,
+    creado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Consultas / citas 
+CREATE TABLE IF NOT EXISTS consultas (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(120) NOT NULL,
+    correo VARCHAR(120) NOT NULL,
+    telefono VARCHAR(20) DEFAULT NULL,
+    servicio_id INT UNSIGNED DEFAULT NULL,
+    mensaje TEXT NOT NULL,
+    fecha_preferida DATETIME DEFAULT NULL,
+    estado ENUM('pendiente','contactado','agendada','cerrada') NOT NULL DEFAULT 'pendiente',
+    creado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_consulta_servicio
+        FOREIGN KEY (servicio_id) REFERENCES servicios(id)
+        ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+-- Usuarios (login, registro, ajustes y gestión de roles)
+
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
+    correo VARCHAR(120) NOT NULL UNIQUE,
+    contrasena_hash VARCHAR(255) NOT NULL,
+    tipo_documento ENUM('CC','CE') DEFAULT NULL,
+    numero_documento VARCHAR(20) DEFAULT NULL UNIQUE,
+    rol ENUM('admin','abogado','cliente') NOT NULL DEFAULT 'cliente',
+    activo TINYINT(1) NOT NULL DEFAULT 1,
+    intentos_fallidos TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    bloqueado_hasta DATETIME NULL DEFAULT NULL,
+    creado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+
+INSERT IGNORE INTO servicios (nombre, descripcion) VALUES
+('Derecho Civil', 'Contratos, responsabilidad civil, propiedad, sucesiones y procesos judiciales civiles.'),
+('Derecho de Familia', 'Divorcios, custodia, alimentos, filiación y liquidación de sociedad conyugal.'),
+('Derecho Laboral', 'Contratos de trabajo, despidos, liquidaciones, prestaciones sociales y litigios laborales.');
+
+
+
+-- Opiniones de los usuarios sobre su experiencia con los abogados
+-- (abogado_id NULL = opinión general sobre el despacho)
+CREATE TABLE IF NOT EXISTS opiniones (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT UNSIGNED NOT NULL,
+    abogado_id INT UNSIGNED DEFAULT NULL,
+    calificacion TINYINT UNSIGNED NOT NULL,
+    comentario TEXT NOT NULL,
+    creado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_opinion_usuario
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_opinion_abogado
+        FOREIGN KEY (abogado_id) REFERENCES abogados(id)
+        ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT chk_calificacion CHECK (calificacion BETWEEN 1 AND 5)
+) ENGINE=InnoDB;
