@@ -635,6 +635,37 @@ ul {
     text-decoration: underline;
 }
 
+/* Botón para volver al inicio (login) */
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 8px 14px;
+    font-family: var(--fuente-titulos);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-gris-texto);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 5px;
+}
+
+.btn-volver::before {
+    content: "\2190";
+    font-size: 16px;
+    line-height: 1;
+}
+
+.btn-volver:hover,
+.btn-volver:focus-visible {
+    color: var(--color-dorado);
+    border-color: var(--color-dorado);
+    outline: none;
+}
+
+
 .contenedor-login .btn {
     display: block;
     width: 100%;
@@ -1071,4 +1102,57 @@ ul {
     border-top: 1px solid rgba(201, 162, 91, 0.25);
     border-radius: 0 0 6px 6px;
     color: #b9b4d6;
+}
+/* ==== para el color de "Área de interés" en el consultas === */
+select option {
+    background-color: var(--color-azul-oscuro);
+    color: var(--color-blanco);
+}
+
+select option:checked,
+select option:hover {
+    background-color: var(--color-dorado);
+    color: var(--color-azul-oscuro);
+}
+
+/* ==== para que sobre salga un poco la tarjeta === */
+.socio {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.socio:hover {
+    transform: translateY(-6px);
+    border-color: var(--color-dorado);
+    box-shadow: 0 10px 25px rgba(201, 161, 90, 0.2);
+}
+
+.equpo_card {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.equpo_card:hover {
+    transform: translateY(-6px);
+    border-color: var(--color-dorado);
+    box-shadow: 0 10px 25px rgba(201, 161, 90, 0.2);
+}
+
+.equpo_card:hover .equipo_avatar {
+    background-color: var(--color-dorado);
+}
+
+.equpo_card:hover .equipo_avatar_icono {
+    stroke: var(--color-azul-oscuro);
+}
+
+/* ==== los campos de crear cuenta se vean iguales ===*/
+.campo input:-webkit-autofill,
+.campo input:-webkit-autofill:hover,
+.campo input:-webkit-autofill:focus,
+.campo input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-negro) inset;
+    box-shadow: 0 0 0 1000px var(--color-negro) inset;
+    -webkit-text-fill-color: var(--color-blanco);
+    caret-color: var(--color-blanco);
+    border: 1px solid #333;
+    transition: background-color 9999s ease-in-out 0s;
 }

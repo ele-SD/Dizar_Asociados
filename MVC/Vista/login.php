@@ -88,6 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <div class="pagina-login">
     <div class="contenedor-login">
+        <a href="index.php" class="btn-volver">Volver al inicio</a>
+
         <img src="../imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
         <h1>Bienvenido</h1>
         <p class="subtitulo">Inicia sesión para continuar</p>
