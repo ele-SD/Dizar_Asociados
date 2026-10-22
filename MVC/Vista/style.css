@@ -1665,3 +1665,36 @@ select option {
     background-color: var(--color-azul-oscuro, #0A012B);
     color: var(--color-blanco, #FFFFFF);
 }
+
+body:has(.nosotros_intro),
+body:has(.servicios),
+body:has(.contacto) {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background:
+        linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)) fixed,
+        url("../imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+    background-color: var(--color-azul-oscuro, #0A012B);
+}
+
+body:has(.nosotros_intro) main,
+body:has(.servicios) main,
+body:has(.contacto) main {
+    flex: 1;
+}
+
+body:has(.nosotros_intro) .footer,
+body:has(.servicios) .footer,
+body:has(.contacto) .footer {
+    background: rgba(10, 1, 43, 0.6);
+}
+
+/* Tarjetas más oscuras para que el texto se lea sobre la foto */
+.valor_card,
+.equpo_card,
+.servicio_card,
+.contacto_info {
+    background-color: rgba(10, 1, 43, 0.7);
+    backdrop-filter: blur(6px);
+}
