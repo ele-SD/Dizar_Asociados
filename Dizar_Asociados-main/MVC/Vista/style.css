@@ -1156,3 +1156,305 @@ select option:hover {
     border: 1px solid #333;
     transition: background-color 9999s ease-in-out 0s;
 }
+
+/* ==========================================================
+   opiniones (opiniones de clientes)
+   ========================================================== */
+
+.opiniones {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 5%;
+    display: grid;
+    grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+    column-gap: 3rem;
+    row-gap: 0;
+    align-items: start;
+}
+
+/* Encabezado y avisos ocupan todo el ancho */
+.opiniones_antetitulo,
+.opiniones_titulo,
+.opiniones_intro,
+.opiniones > .exito,
+.opiniones > .error {
+    grid-column: 1 / -1;
+}
+
+.opiniones_antetitulo {
+    font-family: var(--fuente-titulos, 'poppins', sans-serif);
+    color: var(--color-dorado, #C9A15A);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.opiniones_titulo {
+    font-family: var(--fuente-titulos, 'poppins', sans-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.opiniones_intro {
+    max-width: 600px;
+    margin: 0 auto 2.5rem auto;
+    text-align: center;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Aviso de "opinión publicada" o de error: una línea con barra, sin caja */
+.opiniones > .exito,
+.opiniones > .error {
+    margin: 0 0 1.8rem;
+    padding: 6px 0 6px 12px;
+    background: none;
+    border: none;
+    border-left: 3px solid var(--color-dorado, #C9A15A);
+    border-radius: 0;
+    font-size: 14px;
+    color: var(--color-blanco, #FFFFFF);
+}
+
+.opiniones > .error {
+    border-left-color: #c0504d;
+    color: #f0a0a0;
+}
+
+.opiniones_subtitulo {
+    font-family: var(--fuente-titulos, 'poppins', sans-serif);
+    font-size: 1.1rem;
+    color: var(--color-dorado, #C9A15A);
+    margin-bottom: 1.2rem;
+}
+
+/* Formulario */
+.opiniones_formulario {
+    position: sticky;
+    top: 100px;
+    padding: 1.8rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.opiniones_form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.opiniones_form label {
+    margin-top: 0.8rem;
+    font-family: var(--fuente-titulos, 'poppins', sans-serif);
+    font-size: 0.85rem;
+    color: var(--color-dorado, #C9A15A);
+}
+
+.opiniones_form label:first-of-type {
+    margin-top: 0;
+}
+
+.opiniones_form select,
+.opiniones_form textarea {
+    width: 100%;
+    padding: 0.7rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--color-blanco, #FFFFFF);
+    font-family: inherit;
+    font-size: 0.95rem;
+    color-scheme: dark;
+}
+
+.opiniones_form select:focus,
+.opiniones_form textarea:focus {
+    outline: none;
+    border-color: var(--color-dorado, #C9A15A);
+}
+
+.opiniones_form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.opiniones_form button {
+    margin-top: 1.2rem;
+    align-self: flex-start;
+    border: none;
+    cursor: pointer;
+}
+
+.opiniones_aviso {
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.opiniones_aviso a {
+    color: var(--color-dorado, #C9A15A);
+}
+
+/* Lista de opiniones */
+.opiniones_lista .opiniones_subtitulo {
+    margin-top: 0;
+}
+
+.opiniones_vacio {
+    padding: 1.4rem;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+.opinion_card {
+    margin-bottom: 1rem;
+    padding: 1.4rem 1.6rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 3px solid var(--color-dorado, #C9A15A);
+}
+
+.opinion_calificacion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.7rem;
+}
+
+.estrellas {
+    font-size: 1.05rem;
+    letter-spacing: 2px;
+    color: var(--color-dorado, #C9A15A);
+}
+
+.estrellas_vacias {
+    color: rgba(255, 255, 255, 0.18);
+}
+
+.opinion_numero {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.opinion_comentario {
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    overflow-wrap: break-word;
+}
+
+.opinion_autor {
+    margin-top: 0.9rem;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* Celular y tablet: una sola columna */
+@media (max-width: 900px) {
+    .opiniones {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 4rem 5%;
+    }
+
+    .opiniones_formulario {
+        position: static;
+        margin-bottom: 2.5rem;
+    }
+}
+
+/* Botón del login */
+.btn-volver {
+    display: inline-block;
+    margin-bottom: 18px;
+    font-size: 13px;
+    color: var(--color-gris-texto, #cfcfd8);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.btn-volver::before {
+    content: "←";
+    margin-right: 6px;
+}
+
+.btn-volver:hover,
+.btn-volver:focus-visible {
+    color: var(--color-dorado, #C9A15A);
+}
+
+.btn-volver:focus-visible {
+    outline: 1px solid var(--color-dorado, #C9A15A);
+    outline-offset: 3px;
+}
+
+/* Imagen de fondo en la página de opiniones */
+body:has(.opiniones) {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background:
+        linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)) fixed,
+        url("../imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+    background-color: var(--color-azul-oscuro, #0A012B);
+}
+
+/* El contenido ocupa el espacio libre y el pie de página queda abajo */
+body:has(.opiniones) main {
+    flex: 1;
+}
+
+body:has(.opiniones) .footer {
+    background: rgba(10, 1, 43, 0.6);
+}
+
+/* Tarjetas más oscuras para que el texto se lea sobre la foto */
+.opiniones_formulario,
+.opinion_card {
+    background-color: rgba(10, 1, 43, 0.7);
+    backdrop-filter: blur(6px);
+}
+
+/* lista desplegable de opiniones */
+select {
+    color-scheme: dark;
+}
+
+select option {
+    background-color: var(--color-azul-oscuro, #0A012B);
+    color: var(--color-blanco, #FFFFFF);
+}
+
+body:has(.nosotros_intro),
+body:has(.servicios),
+body:has(.contacto) {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background:
+        linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)) fixed,
+        url("../imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+    background-color: var(--color-azul-oscuro, #0A012B);
+}
+
+body:has(.nosotros_intro) main,
+body:has(.servicios) main,
+body:has(.contacto) main {
+    flex: 1;
+}
+
+body:has(.nosotros_intro) .footer,
+body:has(.servicios) .footer,
+body:has(.contacto) .footer {
+    background: rgba(10, 1, 43, 0.6);
+}
+
+/* Tarjetas más oscuras para que el texto se lea sobre la foto */
+.valor_card,
+.equpo_card,
+.servicio_card,
+.contacto_info {
+    background-color: rgba(10, 1, 43, 0.7);
+    backdrop-filter: blur(6px);
+}
