@@ -82,3 +82,5 @@ CREATE TABLE IF NOT EXISTS opiniones (
         ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT chk_calificacion CHECK (calificacion BETWEEN 1 AND 5)
 ) ENGINE=InnoDB;
+
+ ALTER TABLE opiniones ADD COLUMN area VARCHAR(20) NULL AFTER abogado_id;
