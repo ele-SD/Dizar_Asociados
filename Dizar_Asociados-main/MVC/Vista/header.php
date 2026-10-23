@@ -14,8 +14,8 @@ $rolTexto = $etiquetasRol[$rolActual] ?? "";
 ?>
 <header class="header">
     <nav class="nav">
-        <a href="<?= $base ?>Vista/index.php" class="nav_logo">
-            <img src="<?= $base ?>imagenes/isotipo-dorado1.png" alt="isotipo Dizar Asociados" class="nav_logo_img">
+                <a href="<?= $base ?>Vista/index.php" class="nav_logo">
+            <img src="<?= $base ?>Vista/imagenes/isotipo-dorado1.png" alt="isotipo Dizar Asociados" class="nav_logo_img">
             <span class="nav_logo_texto"> Dizar Asociados</span>
         </a>
         <ul class="nav_menu">

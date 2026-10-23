@@ -95,7 +95,8 @@ ul {
     display: flex;
     align-items: center;
     background: linear-gradient(180deg, rgba(10,1,43,0.75), rgba(10,1,43,0.9)),
-    url("../imagenes/fondo-oficina.png") center/cover no-repeat;
+        url("imagenes/fondo-oficina.png") center/cover no-repeat;
+    padding: 0 8%;
     padding: 0 8%;
 }
 
@@ -509,7 +510,7 @@ ul {
     justify-content: center;
     padding: 2rem;
     background: linear-gradient(180deg, rgba(10,1,43,0.75), rgba(10,1,43,0.95)),
-    url("../imagenes/fondo-oficina.png") center/cover no-repeat;
+    url("imagenes/fondo-oficina.png") center/cover no-repeat;
 }
 
 .contenedor-login {
@@ -1396,7 +1397,7 @@ body:has(.opiniones) {
     flex-direction: column;
     background:
         linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)) fixed,
-        url("../imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+                url("imagenes/fondo-oficina.png") center/cover fixed no-repeat;
     background-color: var(--color-azul-oscuro, #0A012B);
 }
 
@@ -1434,7 +1435,7 @@ body:has(.contacto) {
     flex-direction: column;
     background:
         linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)) fixed,
-        url("../imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+                  url("imagenes/fondo-oficina.png") center/cover fixed no-repeat;
     background-color: var(--color-azul-oscuro, #0A012B);
 }
 
