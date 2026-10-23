@@ -14,13 +14,20 @@ $flash  = $_SESSION["flash_opiniones"] ?? null;
 $viejos = $_SESSION["viejos_opiniones"] ?? [];
 unset($_SESSION["flash_opiniones"], $_SESSION["viejos_opiniones"]);
 
+// Áreas del derecho permitidas (clave => texto que se muestra)
+$areas = [
+    "civil"   => "Derecho Civil",
+    "familia" => "Derecho de familia",
+    "laboral" => "Derecho laboral",
+];
+
 // Abogados activos para el selector del formulario
 $abogados = $conexion->query("SELECT id, nombre, especialidad FROM abogados WHERE activo = 1 ORDER BY nombre")
                      ->fetch_all(MYSQLI_ASSOC);
 
 // Opiniones publicadas (más recientes primero)
 $opiniones = $conexion->query(
-    "SELECT o.calificacion, o.comentario, o.creado_en, u.usuario, a.nombre AS abogado
+    "SELECT o.calificacion, o.comentario, o.creado_en, o.area, u.usuario, a.nombre AS abogado
      FROM opiniones o
      INNER JOIN usuarios u ON u.id = o.usuario_id
      LEFT JOIN abogados a ON a.id = o.abogado_id
@@ -70,12 +77,19 @@ $opiniones = $conexion->query(
                         <label for="abogado_id">Abogado</label>
                         <select id="abogado_id" name="abogado_id">
                             <option value="0">-- Opinión general del despacho --</option>
-                             <option value="0">-- Derecho Civíl --</option>
-                              <option value="0">-- Derecho a la familia --</option>
-                               <option value="0">-- Derecho laboral --</option>
                             <?php foreach ($abogados as $a): ?>
                                 <option value="<?= (int) $a["id"] ?>" <?= (int) ($viejos["abogado_id"] ?? 0) === (int) $a["id"] ? "selected" : "" ?>>
                                     <?= htmlspecialchars($a["nombre"]) ?> (<?= htmlspecialchars($a["especialidad"]) ?>)
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <label for="area">Área (opcional)</label>
+                        <select id="area" name="area">
+                            <option value="">-- Sin área específica --</option>
+                            <?php foreach ($areas as $clave => $texto): ?>
+                                <option value="<?= $clave ?>" <?= ($viejos["area"] ?? "") === $clave ? "selected" : "" ?>>
+                                    <?= $texto ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -118,7 +132,15 @@ $opiniones = $conexion->query(
                             <p class="opinion_comentario"><?= nl2br(htmlspecialchars($o["comentario"])) ?></p>
                             <p class="opinion_autor">
                                 <?= htmlspecialchars($o["usuario"]) ?>
-                                · <?= $o["abogado"] ? "Sobre " . htmlspecialchars($o["abogado"]) : "Opinión general del despacho" ?>
+                                · <?php
+                                    if ($o["abogado"]) {
+                                        echo "Sobre " . htmlspecialchars($o["abogado"]);
+                                    } elseif (!empty($o["area"]) && isset($areas[$o["area"]])) {
+                                        echo htmlspecialchars($areas[$o["area"]]);
+                                    } else {
+                                        echo "Opinión general del despacho";
+                                    }
+                                ?>
                                 · <?= date("d/m/Y", strtotime($o["creado_en"])) ?>
                             </p>
                         </article>
