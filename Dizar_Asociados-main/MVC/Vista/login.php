@@ -88,9 +88,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <div class="pagina-login">
     <div class="contenedor-login">
-        <a href="index.php" class="btn-volver">Volver al inicio</a>
+       <a href="index.php" class="btn-volver" aria-label="Volver al inicio" title="Volver al inicio">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 11l9-8 9 8"/>
+        <path d="M5 10v10h5v-6h4v6h5V10"/>
+    </svg>
+</a>
 
-        <img src="imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
+        <img src="../imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
         <h1>Bienvenido</h1>
         <p class="subtitulo">Inicia sesión para continuar</p>
 
