@@ -22,7 +22,7 @@ $esPersonal = in_array($rol, ["admin", "abogado"], true);
 
 <div class="pagina-login">
     <div class="contenedor-login">
-        <img src="../imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
+        <img src="imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
         <h1>¡Bienvenido!</h1>
         <p class="subtitulo">
             <?php echo htmlspecialchars($_SESSION["usuario"] ?? ""); ?>

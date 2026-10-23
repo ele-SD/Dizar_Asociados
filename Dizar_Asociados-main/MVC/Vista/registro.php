@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <div class="pagina-login">
     <div class="contenedor-login">
-        <img src="../imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
+        <img src="imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
         <h1>Crear cuenta</h1>
         <p class="subtitulo">Regístrate para acceder al portal</p>
 

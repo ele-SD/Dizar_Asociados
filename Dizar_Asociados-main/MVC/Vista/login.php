@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <div class="pagina-login">
     <div class="contenedor-login">
-        <img src="../imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
+        <img src="imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
         <h1>Bienvenido</h1>
         <p class="subtitulo">Inicia sesión para continuar</p>
 
@@ -106,8 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <small class="campo_msg" id="msgContrasena" role="alert"><?php echo htmlspecialchars($error); ?></small>
             </div>
 
-            <button type="submit" class="btn">Iniciar sesión</button>
-
+            <button type="submit" class="btn">Iniciar sesión</button> 
             <div class="enlaces">
                 <a href="recuperar.php">¿Olvidaste tu contraseña?</a>
             </div>
