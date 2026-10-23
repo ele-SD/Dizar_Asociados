@@ -70,6 +70,9 @@ $opiniones = $conexion->query(
                         <label for="abogado_id">Abogado</label>
                         <select id="abogado_id" name="abogado_id">
                             <option value="0">-- Opinión general del despacho --</option>
+                             <option value="0">-- Derecho Civíl --</option>
+                              <option value="0">-- Derecho a la familia --</option>
+                               <option value="0">-- Derecho laboral --</option>
                             <?php foreach ($abogados as $a): ?>
                                 <option value="<?= (int) $a["id"] ?>" <?= (int) ($viejos["abogado_id"] ?? 0) === (int) $a["id"] ? "selected" : "" ?>>
                                     <?= htmlspecialchars($a["nombre"]) ?> (<?= htmlspecialchars($a["especialidad"]) ?>)
