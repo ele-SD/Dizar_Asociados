@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <div class="pagina-login">
     <div class="contenedor-login">
-        <img src="../imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
+        <img src="imagenes/isotipo-dorado1.png" alt="Logo Dizar Asociados" class="logo">
         <h1>Recuperar contraseña</h1>
         <p class="subtitulo">Ingresa tu correo y te enviaremos instrucciones</p>
 

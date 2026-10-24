@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('America/Bogota');
 require_once __DIR__ . '/../Modelo/conexion.php';
 
 // Solo se acepta por POST
@@ -32,14 +33,15 @@ $correo   = trim($_POST["correo"] ?? "");
 $telefono = trim($_POST["telefono"] ?? "");
 $area     = trim($_POST["area"] ?? "");
 $mensaje  = trim($_POST["mensaje"] ?? "");
+$fechaTxt = trim($_POST["fecha_preferida"] ?? "");
 
 $viejos = [
     "nombre" => $nombre, "correo" => $correo, "telefono" => $telefono,
-    "area" => $area, "mensaje" => $mensaje,
+    "area" => $area, "mensaje" => $mensaje, "fecha_preferida" => $fechaTxt,
 ];
 
 // Validaciones
-if ($nombre === "" || $correo === "" || $telefono === "" || $area === "" || $mensaje === "") {
+if ($nombre === "" || $correo === "" || $telefono === "" || $area === "" || $mensaje === "" || $fechaTxt === "") {
     volver("error", "Por favor completa todos los campos.", $viejos);
 }
 if (mb_strlen($nombre) > 120 || mb_strlen($correo) > 120) {
@@ -58,6 +60,22 @@ if (mb_strlen($mensaje) > 2000) {
     volver("error", "El mensaje es demasiado largo (máximo 2000 caracteres).", $viejos);
 }
 
+// Fecha de la cita: formato válido, a futuro y dentro del horario de atención
+$fecha = DateTime::createFromFormat('Y-m-d\TH:i', $fechaTxt);
+$errores = DateTime::getLastErrors();
+if (!$fecha || ($errores && ($errores['warning_count'] > 0 || $errores['error_count'] > 0))) {
+    volver("error", "La fecha de la cita no es válida.", $viejos);
+}
+if ($fecha <= new DateTime('now')) {
+    volver("error", "Elige una fecha y hora que todavía no haya pasado.", $viejos);
+}
+$diaSemana = (int) $fecha->format('N');   // 1 = lunes ... 7 = domingo
+$hora      = (int) $fecha->format('G');
+if ($diaSemana > 5 || $hora < 8 || $hora >= 17) {
+    volver("error", "Atendemos de lunes a viernes, de 8:00 a.m. a 5:00 p.m. Elige otro horario.", $viejos);
+}
+$fechaPreferida = $fecha->format('Y-m-d H:i:s');
+
 // Buscar el servicio por nombre (solo los activos)
 $stmt = $conexion->prepare("SELECT id FROM servicios WHERE nombre = ? AND activo = 1");
 $stmt->bind_param("s", $area);
@@ -72,13 +90,13 @@ $servicioId = (int) $servicio["id"];
 
 // Guardar la consulta (estado 'pendiente' por defecto en la BD)
 $stmt = $conexion->prepare(
-    "INSERT INTO consultas (nombre, correo, telefono, servicio_id, mensaje) VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO consultas (nombre, correo, telefono, servicio_id, mensaje, fecha_preferida) VALUES (?, ?, ?, ?, ?, ?)"
 );
-$stmt->bind_param("sssis", $nombre, $correo, $telefono, $servicioId, $mensaje);
+$stmt->bind_param("sssiss", $nombre, $correo, $telefono, $servicioId, $mensaje, $fechaPreferida);
 
 if ($stmt->execute()) {
     $stmt->close();
-    volver("exito", "¡Gracias! Recibimos tu mensaje y uno de nuestros abogados te contactará pronto.");
+    volver("exito", "¡Gracias! Recibimos tu solicitud de cita y uno de nuestros abogados te contactará para confirmarla.");
 }
 
 $stmt->close();

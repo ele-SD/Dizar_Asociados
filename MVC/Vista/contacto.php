@@ -1,6 +1,10 @@
 <?php
 session_start();
+date_default_timezone_set('America/Bogota');
 $base = '../';
+
+// Primera fecha que se puede pedir: dentro de una hora
+$fechaMinima = date('Y-m-d\TH:i', strtotime('+1 hour'));
 
 if (empty($_SESSION["csrf"])) {
     $_SESSION["csrf"] = bin2hex(random_bytes(32));
@@ -69,6 +73,11 @@ function viejo(array $viejos, string $campo): string {
                             <option value="<?= $a ?>" <?= ($viejos["area"] ?? "") === $a ? "selected" : "" ?>><?= $a ?></option>
                         <?php endforeach; ?>
                     </select>
+
+                    <label for="fecha_preferida">Fecha y hora preferida (lunes a viernes, 8:00 a.m. a 5:00 p.m.)</label>
+                    <input type="datetime-local" id="fecha_preferida" name="fecha_preferida" required
+                           min="<?= $fechaMinima ?>" step="900"
+                           value="<?= viejo($viejos, "fecha_preferida") ?>">
 
                     <label for="mensaje">Mensaje</label>
                     <textarea id="mensaje" name="mensaje" rows="5" maxlength="2000" required><?= viejo($viejos, "mensaje") ?></textarea>

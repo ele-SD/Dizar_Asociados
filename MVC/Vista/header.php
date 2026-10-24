@@ -14,8 +14,8 @@ $rolTexto = $etiquetasRol[$rolActual] ?? "";
 ?>
 <header class="header">
     <nav class="nav">
-        <a href="<?= $base ?>Vista/index.php" class="nav_logo">
-            <img src="<?= $base ?>imagenes/isotipo-dorado1.png" alt="isotipo Dizar Asociados" class="nav_logo_img">
+                <a href="<?= $base ?>Vista/index.php" class="nav_logo">
+            <img src="<?= $base ?>Vista/imagenes/isotipo-dorado1.png" alt="isotipo Dizar Asociados" class="nav_logo_img">
             <span class="nav_logo_texto"> Dizar Asociados</span>
         </a>
         <ul class="nav_menu">
@@ -43,10 +43,15 @@ $rolTexto = $etiquetasRol[$rolActual] ?? "";
                     </div>
 
                     <a class="perfil_enlace" href="<?= $base ?>Vista/dashboard.php">Mi cuenta</a>
+                    <?php if ($rolActual === "cliente"): ?>
+                        <a class="perfil_enlace" href="<?= $base ?>Vista/mis_casos.php">Mis casos</a>
+                    <?php endif; ?>
                     <?php if ($esPersonal): ?>
+                        <a class="perfil_enlace" href="<?= $base ?>Vista/casos.php">Casos</a>
                         <a class="perfil_enlace" href="<?= $base ?>Vista/consultas.php">Consultas</a>
                     <?php endif; ?>
                     <?php if ($rolActual === "admin"): ?>
+                        <a class="perfil_enlace" href="<?= $base ?>Vista/abogados.php">Abogados</a>
                         <a class="perfil_enlace" href="<?= $base ?>Vista/usuarios.php">Usuarios</a>
                     <?php endif; ?>
                     <a class="perfil_enlace" href="<?= $base ?>Vista/ajustes.php">Ajustes</a>

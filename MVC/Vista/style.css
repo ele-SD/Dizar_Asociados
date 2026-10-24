@@ -95,7 +95,8 @@ ul {
     display: flex;
     align-items: center;
     background: linear-gradient(180deg, rgba(10,1,43,0.75), rgba(10,1,43,0.9)),
-    url("../imagenes/fondo-oficina.png") center/cover no-repeat;
+        url("imagenes/fondo-oficina.png") center/cover no-repeat;
+    padding: 0 8%;
     padding: 0 8%;
 }
 
@@ -498,9 +499,7 @@ ul {
     }
 }
 
-/* ===================== */
 /* LOGIN / REGISTRO / RECUPERAR */
-/* ===================== */
 
 .pagina-login {
     min-height: 100vh;
@@ -509,7 +508,7 @@ ul {
     justify-content: center;
     padding: 2rem;
     background: linear-gradient(180deg, rgba(10,1,43,0.75), rgba(10,1,43,0.95)),
-    url("../imagenes/fondo-oficina.png") center/cover no-repeat;
+    url("imagenes/fondo-oficina.png") center/cover no-repeat;
 }
 
 .contenedor-login {
@@ -1395,6 +1394,7 @@ body:has(main.usuarios) {
     .servicios_grid {
         grid-template-columns: 1fr;
     }
+    
 }
 
 /* ==========================================================
@@ -1637,6 +1637,7 @@ body:has(.opiniones) {
     background:
         linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)) fixed,
         url("../imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+               ;
     background-color: var(--color-azul-oscuro, #0A012B);
 }
 
@@ -1675,6 +1676,7 @@ body:has(.contacto) {
     background:
         linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)) fixed,
         url("../imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+                  
     background-color: var(--color-azul-oscuro, #0A012B);
 }
 
@@ -1697,4 +1699,167 @@ body:has(.contacto) .footer {
 .contacto_info {
     background-color: rgba(10, 1, 43, 0.7);
     backdrop-filter: blur(6px);
+}
+
+/* casos (registro, historial, gestión y detalle)*/
+
+/* Botón que ocupa todo el ancho (panel de la cuenta) */
+.btn--bloque {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Campo de fecha y hora con el mismo aspecto oscuro del formulario */
+.contacto_form input[type="datetime-local"] {
+    color-scheme: dark;
+}
+
+/* Formulario de registro de caso */
+.caso_formulario {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: left;
+    background-color: rgba(10, 1, 43, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+}
+
+/* Título de la página con su botón o estado al lado */
+.caso_cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.caso_cabecera h1 {
+    margin-bottom: 0;
+}
+
+/* Etiqueta del estado de un caso */
+.caso_estado {
+    display: inline-block;
+    padding: 4px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    color: var(--color-gris-texto);
+}
+
+.caso_estado--asignado {
+    border-color: var(--color-dorado);
+    color: var(--color-dorado);
+}
+
+.caso_estado--en_proceso {
+    border-color: var(--color-dorado);
+    background: rgba(201, 161, 90, 0.18);
+    color: var(--color-dorado);
+}
+
+.caso_estado--cerrado {
+    border-color: #7fb08a;
+    color: #9fd0aa;
+}
+
+/* Fila de estado y nota en la gestión de casos */
+.fila-rol {
+    flex-wrap: wrap;
+}
+
+.fila-rol input[type="text"] {
+    min-width: 170px;
+    padding: 8px;
+    background: var(--color-negro);
+    color: var(--color-blanco);
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+.fila-rol input[type="text"]:focus,
+.fila-rol select:focus {
+    outline: none;
+    border-color: var(--color-dorado);
+}
+
+/* Detalle de un caso */
+.caso_datos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px 24px;
+    margin-bottom: 32px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.caso_datos dt {
+    font-size: 0.8rem;
+    color: var(--color-dorado);
+    margin-bottom: 4px;
+}
+
+.caso_datos dd {
+    font-size: 0.95rem;
+}
+
+.caso_subtitulo {
+    font-family: var(--fuente-titulos);
+    font-size: 1.1rem;
+    color: var(--color-dorado);
+    margin: 28px 0 12px;
+}
+
+.caso_descripcion {
+    max-width: 70ch;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    overflow-wrap: break-word;
+}
+
+/* Línea de seguimiento */
+.caso_linea {
+    list-style: none;
+    border-left: 2px solid rgba(201, 161, 90, 0.4);
+    margin-left: 6px;
+}
+
+.caso_linea li {
+    padding: 0 0 22px 20px;
+}
+
+.caso_linea li:last-child {
+    padding-bottom: 0;
+}
+
+.caso_linea_nota {
+    margin-top: 8px;
+    max-width: 70ch;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+}
+
+.caso_linea_meta {
+    margin-top: 6px;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* En la gestión de casos hace falta un poco más de ancho */
+.usuarios.casos {
+    max-width: 1250px;
+}
+
+/* Campos autocompletados con el mismo estilo oscuro */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-blanco, #FFFFFF);
+    caret-color: var(--color-blanco, #FFFFFF);
+    transition: background-color 9999s ease-in-out 0s;
 }

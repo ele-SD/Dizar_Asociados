@@ -55,7 +55,7 @@ while ($f = $res->fetch_assoc()) {
 $totalGeneral = array_sum($conteos);
 
 // Listado (con el nombre del servicio)
-$sql = "SELECT c.id, c.nombre, c.correo, c.telefono, c.mensaje, c.estado, c.creado_en,
+$sql = "SELECT c.id, c.nombre, c.correo, c.telefono, c.mensaje, c.estado, c.creado_en, c.fecha_preferida,
                s.nombre AS servicio
         FROM consultas c
         LEFT JOIN servicios s ON s.id = c.servicio_id";
@@ -118,6 +118,7 @@ if ($filtro !== "") {
                     <th>Cliente</th>
                     <th>Contacto</th>
                     <th>Área</th>
+                    <th>Cita pedida</th>
                     <th>Mensaje</th>
                     <th>Estado</th>
                 </tr>
@@ -135,6 +136,9 @@ if ($filtro !== "") {
                     </td>
                     <td data-label="Área"><?= htmlspecialchars($c["servicio"] ?? "Sin área") ?></td>
                     <td data-label="Mensaje">
+                    <td><?= htmlspecialchars($c["servicio"] ?? "Sin área") ?></td>
+                    <td><?= $c["fecha_preferida"] ? htmlspecialchars(substr($c["fecha_preferida"], 0, 16)) : "—" ?></td>
+                    <td>
                         <details class="consulta_mensaje">
                             <summary><?= htmlspecialchars(mb_strimwidth($c["mensaje"], 0, 50, "…")) ?></summary>
                             <p><?= nl2br(htmlspecialchars($c["mensaje"])) ?></p>
