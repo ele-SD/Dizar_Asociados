@@ -1604,30 +1604,6 @@ body:has(main.usuarios) {
     }
 }
 
-/* Botón del login */
-.btn-volver {
-    display: inline-block;
-    margin-bottom: 18px;
-    font-size: 13px;
-    color: var(--color-gris-texto, #cfcfd8);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.btn-volver::before {
-    content: "←";
-    margin-right: 6px;
-}
-
-.btn-volver:hover,
-.btn-volver:focus-visible {
-    color: var(--color-dorado, #C9A15A);
-}
-
-.btn-volver:focus-visible {
-    outline: 1px solid var(--color-dorado, #C9A15A);
-    outline-offset: 3px;
-}
 
 /* Imagen de fondo en la página de opiniones */
 body:has(.opiniones) {
@@ -1862,4 +1838,190 @@ input:-webkit-autofill:focus {
     -webkit-text-fill-color: var(--color-blanco, #FFFFFF);
     caret-color: var(--color-blanco, #FFFFFF);
     transition: background-color 9999s ease-in-out 0s;
+}
+
+/* Botón volver al inicio: solo icono (va al final para ganar sobre reglas viejas) */
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin: 0 0 18px;
+    padding: 0;
+    font-size: 0;
+    color: var(--color-gris-texto, #cfcfd8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-volver::before,
+.btn-volver::after {
+    content: none;
+}
+
+.btn-volver:hover,
+.btn-volver:focus-visible {
+    color: var(--color-dorado, #C9A15A);
+    border-color: var(--color-dorado, #C9A15A);
+    outline: none;
+}
+
+/* ==========================================================
+   FONDO DE CADA PÁGINA
+   Pegar AL FINAL de style.css (si ya pegaste el bloque
+   "UN FONDO DISTINTO POR PÁGINA", bórralo y deja solo este).
+
+   PARA CAMBIAR UNA FOTO: busca la página y cambia solo el
+   nombre del archivo en  --foto: url("imagenes/NOMBRE.jpg");
+   Las fotos deben estar en la carpeta MVC/Vista/imagenes/
+   ========================================================== */
+
+
+/* ---------- Parte común (no hay que tocarla) ---------- */
+html body:has(main.usuarios),
+html body:has(main.ajustes),
+html body:has(.opiniones),
+html body:has(.nosotros_intro),
+html body:has(.servicios),
+html body:has(.contacto_info),
+html body:has(.caso_formulario) {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-azul-oscuro, #0A012B);
+    background-image:
+        linear-gradient(180deg, var(--tinte-1, rgba(10, 1, 43, 0.75)), var(--tinte-2, rgba(10, 1, 43, 0.95))),
+        var(--foto, url("imagenes/fondo-oficina.png"));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%, cover;
+    background-position: 0 0, center;
+}
+
+html body:has(main.usuarios) main,
+html body:has(main.ajustes) main,
+html body:has(.opiniones) main,
+html body:has(.nosotros_intro) main,
+html body:has(.servicios) main,
+html body:has(.contacto_info) main,
+html body:has(.caso_formulario) main {
+    flex: 1;
+}
+
+main.usuarios {
+    width: 100%;
+}
+
+html body:has(main.usuarios) .footer,
+html body:has(.opiniones) .footer,
+html body:has(.nosotros_intro) .footer,
+html body:has(.servicios) .footer,
+html body:has(.contacto_info) .footer,
+html body:has(.caso_formulario) .footer {
+    background: rgba(10, 1, 43, 0.6);
+}
+
+/* Login, crear cuenta, recuperar y mi cuenta */
+.pagina-login {
+    background-image:
+        linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)),
+        var(--foto, url("imagenes/fondo-oficina.png"));
+    background-size: 100% 100%, cover;
+    background-position: 0 0, center;
+    background-repeat: no-repeat;
+}
+
+
+/* ---------- FOTO DE CADA PÁGINA (aquí sí se cambia) ---------- */
+
+/* Mis casos (cliente) */
+body:has(main.usuarios):has(a[href="nuevo_caso.php"]) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(6, 14, 56, 0.72);  --tinte-2: rgba(5, 6, 38, 0.95);
+}
+
+/* Registrar caso (cliente) */
+body:has(.caso_formulario) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(6, 14, 56, 0.72);  --tinte-2: rgba(5, 6, 38, 0.95);
+}
+
+/* Detalle de un caso */
+body:has(main.usuarios):has(.caso_datos) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(8, 10, 52, 0.74);  --tinte-2: rgba(6, 4, 36, 0.95);
+}
+
+/* Casos (abogado y admin) */
+body:has(main.casos) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(30, 8, 44, 0.74);  --tinte-2: rgba(14, 2, 30, 0.95);
+}
+
+/* Consultas (abogado y admin) */
+body:has(main.consultas) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(34, 10, 40, 0.74); --tinte-2: rgba(14, 2, 28, 0.95);
+}
+
+/* Abogados (admin) */
+body:has(main.usuarios):has(.caso_subtitulo):not(:has(.caso_datos)) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(4, 24, 44, 0.74);  --tinte-2: rgba(3, 8, 32, 0.95);
+}
+
+/* Usuarios (admin) */
+body:has(main.usuarios):has(.tabla-usuarios):not(:has(.caso_subtitulo)):not(:has(a[href="nuevo_caso.php"])) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(4, 24, 44, 0.74);  --tinte-2: rgba(3, 8, 32, 0.95);
+}
+
+/* Ajustes de la cuenta */
+body:has(main.ajustes) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Nosotros */
+body:has(.nosotros_intro) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Servicios */
+body:has(.servicios) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(14, 6, 52, 0.74);  --tinte-2: rgba(8, 2, 38, 0.95);
+}
+
+/* Contacto */
+body:has(.contacto_info) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Opiniones */
+body:has(.opiniones) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Iniciar sesión */
+.pagina-login:has(a[href="recuperar.php"]) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Crear cuenta */
+.pagina-login:has(#numero_documento),
+.pagina-login:has(a.btn[href="login.php"]) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Recuperar contraseña */
+.pagina-login:has(.pie a[href="login.php"]):not(:has(#numero_documento)) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Mi cuenta (panel del usuario) */
+.pagina-login:has(.btn--bloque) {
+    --foto: url("imagenes/fondo-oficina.png");
 }
