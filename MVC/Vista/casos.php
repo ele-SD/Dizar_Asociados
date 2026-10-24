@@ -233,14 +233,16 @@ $accionUrl = "casos.php" . ($filtro !== "" ? "?estado=" . urlencode($filtro) : "
             <tbody>
                 <?php foreach ($casos as $c): ?>
                 <tr>
-                    <td><?= htmlspecialchars(substr($c["creado_en"], 0, 10)) ?></td>
-                    <td><?= htmlspecialchars($c["cliente"]) ?></td>
-                    <td>
-                        <a href="caso.php?id=<?= (int) $c["id"] ?>"><?= htmlspecialchars($c["titulo"]) ?></a><br>
-                        <?= htmlspecialchars(CASO_TIPOS[$c["tipo"]] ?? $c["tipo"]) ?>
+                    <td data-label="Registrado"><?= htmlspecialchars(substr($c["creado_en"], 0, 10)) ?></td>
+                    <td data-label="Cliente"><?= htmlspecialchars($c["cliente"]) ?></td>
+                    <td data-label="Caso">
+                        <div>
+                            <a href="caso.php?id=<?= (int) $c["id"] ?>"><?= htmlspecialchars($c["titulo"]) ?></a><br>
+                            <?= htmlspecialchars(CASO_TIPOS[$c["tipo"]] ?? $c["tipo"]) ?>
+                        </div>
                     </td>
-                    <td><?= htmlspecialchars($c["servicio"] ?? "Sin área") ?></td>
-                    <td>
+                    <td data-label="Área"><?= htmlspecialchars($c["servicio"] ?? "Sin área") ?></td>
+                    <td data-label="Abogado">
                         <?php if ($esAdmin): ?>
                             <?php
                             // Solo los abogados del área del caso (si el caso no tiene área, todos)
@@ -270,7 +272,7 @@ $accionUrl = "casos.php" . ($filtro !== "" ? "?estado=" . urlencode($filtro) : "
                             <?= htmlspecialchars($c["abogado"] ?? "Por asignar") ?>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td data-label="Estado y nota">
                         <?php if ($esAdmin || (int) $c["abogado_id"] === $miAbogadoId): ?>
                         <form method="POST" action="<?= $accionUrl ?>" class="fila-rol">
                             <input type="hidden" name="csrf" value="<?= $_SESSION["csrf"] ?>">
@@ -299,4 +301,4 @@ $accionUrl = "casos.php" . ($filtro !== "" ? "?estado=" . urlencode($filtro) : "
 
 <script src="../Controlador/script.js"></script>
 </body>
-</html>
+</html>

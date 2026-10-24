@@ -52,10 +52,13 @@ $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
 <?php include __DIR__ . '/header.php'; ?>
 
 <main class="usuarios">
-    <h1>Gestión de usuarios</h1>
+    <div class="panel_cabecera">
+        <h1>Gestión de usuarios</h1>
+        <p class="panel_sub"><?= count($usuarios) ?> usuario<?= count($usuarios) === 1 ? "" : "s" ?> registrado<?= count($usuarios) === 1 ? "" : "s" ?></p>
+    </div>
 
-    <?php if ($error): ?><div class="error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
-    <?php if ($exito): ?><div class="exito"><?= htmlspecialchars($exito) ?></div><?php endif; ?>
+    <?php if ($error): ?><p class="nota nota--error" role="alert"><?= htmlspecialchars($error) ?></p><?php endif; ?>
+    <?php if ($exito): ?><p class="nota" role="status"><?= htmlspecialchars($exito) ?></p><?php endif; ?>
 
     <div class="tabla-scroll">
         <table class="tabla-usuarios">
@@ -70,12 +73,14 @@ $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
             <tbody>
                 <?php foreach ($usuarios as $u): ?>
                 <tr>
-                    <td>
-                        <?= htmlspecialchars($u["usuario"]) ?>
-                        <?= (int) $u["id"] === $miId ? ' (tú)' : '' ?>
+                    <td data-label="Usuario">
+                        <div>
+                            <?= htmlspecialchars($u["usuario"]) ?>
+                            <?php if ((int) $u["id"] === $miId): ?><span class="etiqueta-tu">tú</span><?php endif; ?>
+                        </div>
                     </td>
-                    <td><?= htmlspecialchars($u["correo"]) ?></td>
-                    <td>
+                    <td data-label="Correo"><?= htmlspecialchars($u["correo"]) ?></td>
+                    <td data-label="Rol">
                         <form method="POST" action="usuarios.php" class="fila-rol">
                             <input type="hidden" name="csrf" value="<?= $_SESSION["csrf"] ?>">
                             <input type="hidden" name="usuario_id" value="<?= (int) $u["id"] ?>">
@@ -86,10 +91,10 @@ $usuarios = $resultado->fetch_all(MYSQLI_ASSOC);
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                            <button type="submit" class="btn">Guardar</button>
+                            <button type="submit" class="btn btn--mini">Guardar</button>
                         </form>
                     </td>
-                    <td><?= htmlspecialchars(substr($u["creado_en"], 0, 10)) ?></td>
+                    <td data-label="Registro" class="celda-fecha"><?= htmlspecialchars(date("d/m/Y", strtotime($u["creado_en"]))) ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

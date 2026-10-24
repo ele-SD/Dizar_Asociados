@@ -82,12 +82,18 @@ if ($filtro !== "") {
 <?php include __DIR__ . '/header.php'; ?>
 
 <main class="usuarios consultas">
-    <h1>Consultas recibidas</h1>
+    <div class="panel_cabecera">
+        <h1>Consultas recibidas</h1>
+        <p class="panel_sub">
+            <?= $totalGeneral ?> en total<?php if ($conteos["pendiente"] > 0): ?>
+            · <?= $conteos["pendiente"] ?> por atender<?php endif; ?>
+        </p>
+    </div>
 
     <?php if ($flash): ?>
-        <div class="<?= $flash["tipo"] === "exito" ? "exito" : "error" ?>" role="alert">
+        <p class="nota<?= $flash["tipo"] === "exito" ? "" : " nota--error" ?>" role="status">
             <?= htmlspecialchars($flash["mensaje"]) ?>
-        </div>
+        </p>
     <?php endif; ?>
 
     <nav class="filtros-estado" aria-label="Filtrar por estado">
@@ -120,12 +126,16 @@ if ($filtro !== "") {
             <tbody>
                 <?php foreach ($consultas as $c): ?>
                 <tr>
-                    <td><?= htmlspecialchars(substr($c["creado_en"], 0, 16)) ?></td>
-                    <td><?= htmlspecialchars($c["nombre"]) ?></td>
-                    <td>
-                        <a href="mailto:<?= htmlspecialchars($c["correo"]) ?>"><?= htmlspecialchars($c["correo"]) ?></a><br>
-                        <?= htmlspecialchars($c["telefono"] ?? "—") ?>
+                    <td data-label="Fecha" class="celda-fecha"><?= htmlspecialchars(date("d/m/Y H:i", strtotime($c["creado_en"]))) ?></td>
+                    <td data-label="Cliente"><?= htmlspecialchars($c["nombre"]) ?></td>
+                    <td data-label="Contacto">
+                        <div>
+                            <a href="mailto:<?= htmlspecialchars($c["correo"]) ?>"><?= htmlspecialchars($c["correo"]) ?></a>
+                            <span class="dato-sec"><?= htmlspecialchars($c["telefono"] ?? "Sin teléfono") ?></span>
+                        </div>
                     </td>
+                    <td data-label="Área"><?= htmlspecialchars($c["servicio"] ?? "Sin área") ?></td>
+                    <td data-label="Mensaje">
                     <td><?= htmlspecialchars($c["servicio"] ?? "Sin área") ?></td>
                     <td><?= $c["fecha_preferida"] ? htmlspecialchars(substr($c["fecha_preferida"], 0, 16)) : "—" ?></td>
                     <td>
@@ -134,16 +144,17 @@ if ($filtro !== "") {
                             <p><?= nl2br(htmlspecialchars($c["mensaje"])) ?></p>
                         </details>
                     </td>
-                    <td>
-                        <form method="POST" action="consultas.php<?= $filtro !== "" ? "?estado=" . urlencode($filtro) : "" ?>" class="fila-rol">
+                    <td data-label="Estado">
+                        <form method="POST" action="consultas.php<?= $filtro !== "" ? "?estado=" . urlencode($filtro) : "" ?>" class="fila-rol fila-rol--estado">
                             <input type="hidden" name="csrf" value="<?= $_SESSION["csrf"] ?>">
                             <input type="hidden" name="consulta_id" value="<?= (int) $c["id"] ?>">
+                            <span class="punto punto--<?= htmlspecialchars($c["estado"]) ?>" aria-hidden="true"></span>
                             <select name="estado" aria-label="Estado de la consulta de <?= htmlspecialchars($c["nombre"]) ?>">
                                 <?php foreach ($estadosValidos as $e): ?>
                                     <option value="<?= $e ?>" <?= $c["estado"] === $e ? "selected" : "" ?>><?= ucfirst($e) ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <button type="submit" class="btn">Guardar</button>
+                            <button type="submit" class="btn btn--mini">Guardar</button>
                         </form>
                     </td>
                 </tr>

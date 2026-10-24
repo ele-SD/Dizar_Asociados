@@ -634,37 +634,6 @@ ul {
     text-decoration: underline;
 }
 
-/* Botón para volver al inicio (login) */
-.btn-volver {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
-    padding: 8px 14px;
-    font-family: var(--fuente-titulos);
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: var(--color-gris-texto);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 5px;
-}
-
-.btn-volver::before {
-    content: "\2190";
-    font-size: 16px;
-    line-height: 1;
-}
-
-.btn-volver:hover,
-.btn-volver:focus-visible {
-    color: var(--color-dorado);
-    border-color: var(--color-dorado);
-    outline: none;
-}
-
-
 .contenedor-login .btn {
     display: block;
     width: 100%;
@@ -1102,58 +1071,330 @@ ul {
     border-radius: 0 0 6px 6px;
     color: #b9b4d6;
 }
-/* ==== para el color de "Área de interés" en el consultas === */
-select option {
-    background-color: var(--color-azul-oscuro);
-    color: var(--color-blanco);
+
+/* ==========================================================
+   PANEL DEL PERSONAL (consultas y usuarios)
+   Pegar AL FINAL de style.css. Se puede pegar encima de otro
+   bloque anterior de consultas/usuarios: este lo reemplaza.
+   ========================================================== */
+
+/* Fondo: la misma imagen del inicio y del login, con capa azul oscura */
+body:has(main.usuarios) {
+    background:
+        linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)),
+        url("../imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+    background-color: var(--color-azul-oscuro, #0A012B);
+    min-height: 100vh;
 }
 
-select option:checked,
-select option:hover {
-    background-color: var(--color-dorado);
-    color: var(--color-azul-oscuro);
+.usuarios {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 5% 60px;
 }
 
-/* ==== para que sobre salga un poco la tarjeta === */
-.socio {
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+.panel_cabecera {
+    margin-bottom: 24px;
 }
 
-.socio:hover {
-    transform: translateY(-6px);
-    border-color: var(--color-dorado);
-    box-shadow: 0 10px 25px rgba(201, 161, 90, 0.2);
+.usuarios h1 {
+    font-family: var(--fuente-titulos, 'poppins', sans-serif);
+    font-size: 1.8rem;
+    margin-bottom: 6px;
 }
 
-.equpo_card {
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+.panel_sub {
+    font-size: 14px;
+    color: var(--color-gris-texto, #cfcfd8);
 }
 
-.equpo_card:hover {
-    transform: translateY(-6px);
-    border-color: var(--color-dorado);
-    box-shadow: 0 10px 25px rgba(201, 161, 90, 0.2);
+/* Aviso simple: una línea con barra a la izquierda, sin caja */
+.nota {
+    margin-bottom: 18px;
+    padding: 6px 0 6px 12px;
+    border-left: 3px solid var(--color-dorado, #C9A15A);
+    font-size: 14px;
 }
 
-.equpo_card:hover .equipo_avatar {
-    background-color: var(--color-dorado);
+.nota--error {
+    border-left-color: #c0504d;
+    color: #f0a0a0;
 }
 
-.equpo_card:hover .equipo_avatar_icono {
-    stroke: var(--color-azul-oscuro);
+/* Filtros por estado: pestañas con subrayado */
+.filtros-estado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 24px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ==== los campos de crear cuenta se vean iguales ===*/
-.campo input:-webkit-autofill,
-.campo input:-webkit-autofill:hover,
-.campo input:-webkit-autofill:focus,
-.campo input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px var(--color-negro) inset;
-    box-shadow: 0 0 0 1000px var(--color-negro) inset;
-    -webkit-text-fill-color: var(--color-blanco);
-    caret-color: var(--color-blanco);
+.filtro {
+    padding: 10px 0;
+    margin-bottom: -1px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    color: var(--color-gris-texto, #cfcfd8);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.filtro:hover {
+    background: transparent;
+    color: var(--color-dorado, #C9A15A);
+}
+
+.filtro--activo,
+.filtro--activo:hover {
+    background: transparent;
+    color: var(--color-dorado, #C9A15A);
+    border-bottom-color: var(--color-dorado, #C9A15A);
+}
+
+/* Tabla */
+.tabla-scroll {
+    overflow-x: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(10, 1, 43, 0.7);
+    backdrop-filter: blur(6px);
+}
+
+.tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.tabla-usuarios th,
+.tabla-usuarios td {
+    text-align: left;
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    vertical-align: top;
+}
+
+.tabla-usuarios tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tabla-usuarios tbody tr:hover {
+    background: rgba(201, 161, 90, 0.05);
+}
+
+.tabla-usuarios th {
+    color: var(--color-dorado, #C9A15A);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.celda-fecha {
+    white-space: nowrap;
+    color: var(--color-gris-texto, #cfcfd8);
+}
+
+.tabla-usuarios a {
+    color: var(--color-dorado, #C9A15A);
+    text-decoration: none;
+    overflow-wrap: break-word;
+}
+
+.tabla-usuarios a:hover {
+    text-decoration: underline;
+}
+
+.dato-sec {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--color-gris-texto, #cfcfd8);
+}
+
+.etiqueta-tu {
+    margin-left: 6px;
+    padding: 1px 7px;
+    border: 1px solid var(--color-dorado-oscuro, #8a6a2f);
+    border-radius: 10px;
+    font-size: 11px;
+    color: var(--color-dorado, #C9A15A);
+}
+
+/* Cambiar estado / rol */
+.fila-rol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.fila-rol select {
+    color-scheme: dark;
+    padding: 7px 10px;
+    background: var(--color-negro, #000000);
+    color: var(--color-blanco, #FFFFFF);
     border: 1px solid #333;
-    transition: background-color 9999s ease-in-out 0s;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.fila-rol select:focus {
+    outline: none;
+    border-color: var(--color-dorado, #C9A15A);
+}
+
+/* En consultas: punto + lista arriba, botón debajo */
+.fila-rol--estado {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.fila-rol--estado .btn--mini {
+    grid-column: 2;
+    justify-self: start;
+}
+
+.btn--mini {
+    padding: 7px 14px;
+    font-size: 0.72rem;
+    background: transparent;
+    color: var(--color-dorado, #C9A15A);
+    border: 1px solid var(--color-dorado, #C9A15A);
+    border-radius: 5px;
+}
+
+.btn--mini:hover {
+    background: var(--color-dorado, #C9A15A);
+    color: var(--color-azul-oscuro, #0A012B);
+}
+
+/* Punto de color del estado de la consulta */
+.punto {
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #8d8fa3;
+}
+
+.punto--pendiente { background: #e0b45a; }
+.punto--contactado { background: #7fb0e6; }
+.punto--agendada { background: #6fc08f; }
+.punto--cerrada { background: #8d8fa3; }
+
+/* Mensaje de la consulta (se despliega) */
+.consulta_mensaje {
+    min-width: 200px;
+}
+
+.consulta_mensaje summary {
+    cursor: pointer;
+}
+
+.consulta_mensaje summary::marker {
+    color: var(--color-dorado, #C9A15A);
+}
+
+.consulta_mensaje p {
+    margin-top: 8px;
+    max-width: 360px;
+    line-height: 1.5;
+    color: var(--color-gris-texto, #cfcfd8);
+}
+
+.consultas_vacio {
+    margin-top: 24px;
+    color: var(--color-gris-texto, #cfcfd8);
+}
+
+/* Celular: la barra de arriba pasa a dos filas y las tablas se vuelven tarjetas */
+@media (max-width: 768px) {
+    .tabla-scroll {
+        overflow: visible;
+        border: none;
+        background: none;
+    }
+
+    .tabla-usuarios,
+    .tabla-usuarios tbody,
+    .tabla-usuarios tr,
+    .tabla-usuarios td {
+        display: block;
+        width: 100%;
+    }
+
+    .tabla-usuarios thead {
+        position: absolute;
+        left: -9999px;
+    }
+
+    .tabla-usuarios tr {
+        margin-bottom: 14px;
+        padding: 6px 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        background: rgba(10, 1, 43, 0.7);
+        backdrop-filter: blur(6px);
+    }
+
+    .tabla-usuarios td {
+        display: flex;
+        gap: 12px;
+        padding: 8px 16px;
+        border: none;
+    }
+
+    .tabla-usuarios td::before {
+        content: attr(data-label);
+        flex: 0 0 76px;
+        padding-top: 2px;
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--color-dorado, #C9A15A);
+    }
+
+    .tabla-usuarios td > * {
+        min-width: 0;
+    }
+
+    .consulta_mensaje {
+        min-width: 0;
+    }
+
+    .fila-rol--estado {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .consulta_mensaje p {
+        max-width: none;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .nav {
+        flex-wrap: wrap;
+        row-gap: 0.8rem;
+    }
+
+    .nav_menu {
+        order: 3;
+        width: 100%;
+        margin: 0;
+        justify-content: center;
+    }
+
+    .servicios_grid {
+        grid-template-columns: 1fr;
+    }
+    
 }
 
 /* ==========================================================
@@ -1363,30 +1604,6 @@ select option:hover {
     }
 }
 
-/* Botón del login */
-.btn-volver {
-    display: inline-block;
-    margin-bottom: 18px;
-    font-size: 13px;
-    color: var(--color-gris-texto, #cfcfd8);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.btn-volver::before {
-    content: "←";
-    margin-right: 6px;
-}
-
-.btn-volver:hover,
-.btn-volver:focus-visible {
-    color: var(--color-dorado, #C9A15A);
-}
-
-.btn-volver:focus-visible {
-    outline: 1px solid var(--color-dorado, #C9A15A);
-    outline-offset: 3px;
-}
 
 /* Imagen de fondo en la página de opiniones */
 body:has(.opiniones) {
@@ -1395,7 +1612,8 @@ body:has(.opiniones) {
     flex-direction: column;
     background:
         linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)) fixed,
-                url("imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+        url("../imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+               ;
     background-color: var(--color-azul-oscuro, #0A012B);
 }
 
@@ -1433,7 +1651,8 @@ body:has(.contacto) {
     flex-direction: column;
     background:
         linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)) fixed,
-                  url("imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+        url("../imagenes/fondo-oficina.png") center/cover fixed no-repeat;
+                  
     background-color: var(--color-azul-oscuro, #0A012B);
 }
 
@@ -1610,4 +1829,199 @@ body:has(.contacto) .footer {
 /* En la gestión de casos hace falta un poco más de ancho */
 .usuarios.casos {
     max-width: 1250px;
+}
+
+/* Campos autocompletados con el mismo estilo oscuro */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-blanco, #FFFFFF);
+    caret-color: var(--color-blanco, #FFFFFF);
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+/* Botón volver al inicio: solo icono (va al final para ganar sobre reglas viejas) */
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin: 0 0 18px;
+    padding: 0;
+    font-size: 0;
+    color: var(--color-gris-texto, #cfcfd8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-volver::before,
+.btn-volver::after {
+    content: none;
+}
+
+.btn-volver:hover,
+.btn-volver:focus-visible {
+    color: var(--color-dorado, #C9A15A);
+    border-color: var(--color-dorado, #C9A15A);
+    outline: none;
+}
+
+/* ==========================================================
+   FONDO DE CADA PÁGINA
+   Pegar AL FINAL de style.css (si ya pegaste el bloque
+   "UN FONDO DISTINTO POR PÁGINA", bórralo y deja solo este).
+
+   PARA CAMBIAR UNA FOTO: busca la página y cambia solo el
+   nombre del archivo en  --foto: url("imagenes/NOMBRE.jpg");
+   Las fotos deben estar en la carpeta MVC/Vista/imagenes/
+   ========================================================== */
+
+
+/* ---------- Parte común (no hay que tocarla) ---------- */
+html body:has(main.usuarios),
+html body:has(main.ajustes),
+html body:has(.opiniones),
+html body:has(.nosotros_intro),
+html body:has(.servicios),
+html body:has(.contacto_info),
+html body:has(.caso_formulario) {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-azul-oscuro, #0A012B);
+    background-image:
+        linear-gradient(180deg, var(--tinte-1, rgba(10, 1, 43, 0.75)), var(--tinte-2, rgba(10, 1, 43, 0.95))),
+        var(--foto, url("imagenes/fondo-oficina.png"));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%, cover;
+    background-position: 0 0, center;
+}
+
+html body:has(main.usuarios) main,
+html body:has(main.ajustes) main,
+html body:has(.opiniones) main,
+html body:has(.nosotros_intro) main,
+html body:has(.servicios) main,
+html body:has(.contacto_info) main,
+html body:has(.caso_formulario) main {
+    flex: 1;
+}
+
+main.usuarios {
+    width: 100%;
+}
+
+html body:has(main.usuarios) .footer,
+html body:has(.opiniones) .footer,
+html body:has(.nosotros_intro) .footer,
+html body:has(.servicios) .footer,
+html body:has(.contacto_info) .footer,
+html body:has(.caso_formulario) .footer {
+    background: rgba(10, 1, 43, 0.6);
+}
+
+/* Login, crear cuenta, recuperar y mi cuenta */
+.pagina-login {
+    background-image:
+        linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)),
+        var(--foto, url("imagenes/fondo-oficina.png"));
+    background-size: 100% 100%, cover;
+    background-position: 0 0, center;
+    background-repeat: no-repeat;
+}
+
+
+/* ---------- FOTO DE CADA PÁGINA (aquí sí se cambia) ---------- */
+
+/* Mis casos (cliente) */
+body:has(main.usuarios):has(a[href="nuevo_caso.php"]) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(6, 14, 56, 0.72);  --tinte-2: rgba(5, 6, 38, 0.95);
+}
+
+/* Registrar caso (cliente) */
+body:has(.caso_formulario) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(6, 14, 56, 0.72);  --tinte-2: rgba(5, 6, 38, 0.95);
+}
+
+/* Detalle de un caso */
+body:has(main.usuarios):has(.caso_datos) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(8, 10, 52, 0.74);  --tinte-2: rgba(6, 4, 36, 0.95);
+}
+
+/* Casos (abogado y admin) */
+body:has(main.casos) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(30, 8, 44, 0.74);  --tinte-2: rgba(14, 2, 30, 0.95);
+}
+
+/* Consultas (abogado y admin) */
+body:has(main.consultas) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(34, 10, 40, 0.74); --tinte-2: rgba(14, 2, 28, 0.95);
+}
+
+/* Abogados (admin) */
+body:has(main.usuarios):has(.caso_subtitulo):not(:has(.caso_datos)) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(4, 24, 44, 0.74);  --tinte-2: rgba(3, 8, 32, 0.95);
+}
+
+/* Usuarios (admin) */
+body:has(main.usuarios):has(.tabla-usuarios):not(:has(.caso_subtitulo)):not(:has(a[href="nuevo_caso.php"])) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(4, 24, 44, 0.74);  --tinte-2: rgba(3, 8, 32, 0.95);
+}
+
+/* Ajustes de la cuenta */
+body:has(main.ajustes) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Nosotros */
+body:has(.nosotros_intro) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Servicios */
+body:has(.servicios) {
+    --foto: url("imagenes/fondo-oficina.png");
+    --tinte-1: rgba(14, 6, 52, 0.74);  --tinte-2: rgba(8, 2, 38, 0.95);
+}
+
+/* Contacto */
+body:has(.contacto_info) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Opiniones */
+body:has(.opiniones) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Iniciar sesión */
+.pagina-login:has(a[href="recuperar.php"]) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Crear cuenta */
+.pagina-login:has(#numero_documento),
+.pagina-login:has(a.btn[href="login.php"]) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Recuperar contraseña */
+.pagina-login:has(.pie a[href="login.php"]):not(:has(#numero_documento)) {
+    --foto: url("imagenes/fondo-oficina.png");
+}
+
+/* Mi cuenta (panel del usuario) */
+.pagina-login:has(.btn--bloque) {
+    --foto: url("imagenes/fondo-oficina.png");
 }

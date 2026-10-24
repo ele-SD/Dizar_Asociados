@@ -109,8 +109,10 @@ $opiniones = $conexion->query(
                 <?php else: ?>
                     <?php foreach ($opiniones as $o): ?>
                         <article class="opinion_card">
-                            <p class="opinion_calificacion">
-                                Calificación: <?= (int) $o["calificacion"] ?>/5
+                            <?php $n = max(0, min(5, (int) $o["calificacion"])); ?>
+                            <p class="opinion_calificacion" aria-label="Calificación: <?= $n ?> de 5">
+                                <span class="estrellas" aria-hidden="true"><?= str_repeat("★", $n) ?><span class="estrellas_vacias"><?= str_repeat("★", 5 - $n) ?></span></span>
+                                <span class="opinion_numero"><?= $n ?>/5</span>
                             </p>
                             <p class="opinion_comentario"><?= nl2br(htmlspecialchars($o["comentario"])) ?></p>
                             <p class="opinion_autor">

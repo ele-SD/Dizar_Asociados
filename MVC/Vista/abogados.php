@@ -153,8 +153,8 @@ $abogados = $conexion->query(
             <tbody>
                 <?php foreach ($sinFicha as $s): ?>
                 <tr>
-                    <td><?= htmlspecialchars($s["usuario"]) ?><br><?= htmlspecialchars($s["correo"]) ?></td>
-                    <td colspan="4">
+                    <td data-label="Usuario"><?= htmlspecialchars($s["usuario"]) ?><br><?= htmlspecialchars($s["correo"]) ?></td>
+                    <td data-label="Ficha" colspan="4">
                         <form method="POST" action="abogados.php" class="fila-rol">
                             <input type="hidden" name="csrf" value="<?= $_SESSION["csrf"] ?>">
                             <input type="hidden" name="accion" value="crear">
@@ -197,10 +197,10 @@ $abogados = $conexion->query(
             <tbody>
                 <?php foreach ($abogados as $a): ?>
                 <tr>
-                    <td><?= htmlspecialchars($a["nombre"]) ?></td>
-                    <td><?= htmlspecialchars($a["usuario"] ?? "—") ?><br><?= htmlspecialchars($a["correo"] ?? "") ?></td>
-                    <td><?= htmlspecialchars($a["tarjeta_profesional"] ?? "—") ?></td>
-                    <td>
+                    <td data-label="Abogado"><?= htmlspecialchars($a["nombre"]) ?></td>
+                    <td data-label="Cuenta"><?= htmlspecialchars($a["usuario"] ?? "—") ?><br><?= htmlspecialchars($a["correo"] ?? "") ?></td>
+                    <td data-label="Tarjeta prof."><?= htmlspecialchars($a["tarjeta_profesional"] ?? "—") ?></td>
+                    <td data-label="Área y estado">
                         <form method="POST" action="abogados.php" class="fila-rol">
                             <input type="hidden" name="csrf" value="<?= $_SESSION["csrf"] ?>">
                             <input type="hidden" name="accion" value="actualizar">
@@ -231,4 +231,4 @@ $abogados = $conexion->query(
 
 <script src="../Controlador/script.js"></script>
 </body>
-</html>
+</html>

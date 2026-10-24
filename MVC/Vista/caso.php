@@ -73,7 +73,11 @@ $etiquetasRol = ["admin" => "Administrador", "abogado" => "Abogado", "cliente" =
 <?php include __DIR__ . '/header.php'; ?>
 
 <main class="usuarios">
-    <a href="<?= $volverA ?>" class="btn-volver">Volver a los casos</a>
+    <a href="<?= $volverA ?>" class="btn-volver" aria-label="Volver a los casos" title="Volver a los casos">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 12H5M11 6l-6 6 6 6"/>
+        </svg>
+    </a>
 
     <div class="caso_cabecera">
         <h1><?= htmlspecialchars($caso["titulo"]) ?></h1>
@@ -129,4 +133,4 @@ $etiquetasRol = ["admin" => "Administrador", "abogado" => "Abogado", "cliente" =
 
 <script src="../Controlador/script.js"></script>
 </body>
-</html>
+</html>
