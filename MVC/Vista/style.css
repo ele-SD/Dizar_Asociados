@@ -1893,7 +1893,7 @@ html body:has(.caso_formulario) {
     flex-direction: column;
     background-color: var(--color-azul-oscuro, #0A012B);
     background-image:
-        linear-gradient(180deg, var(--tinte-1, rgba(10, 1, 43, 0.75)), var(--tinte-2, rgba(10, 1, 43, 0.95))),
+        linear-gradient(180deg, var(--tinte-1, rgba(10, 1, 43, 0.45)), var(--tinte-2, rgba(10, 1, 43, 0.8))),
         var(--foto, url("imagenes/fondo-oficina.png"));
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -1927,7 +1927,7 @@ html body:has(.caso_formulario) .footer {
 /* Login, crear cuenta, recuperar y mi cuenta */
 .pagina-login {
     background-image:
-        linear-gradient(180deg, rgba(10, 1, 43, 0.75), rgba(10, 1, 43, 0.95)),
+        linear-gradient(180deg, rgba(10, 1, 43, 0.45), rgba(10, 1, 43, 0.8)),
         var(--foto, url("imagenes/fondo-oficina.png"));
     background-size: 100% 100%, cover;
     background-position: 0 0, center;
@@ -1939,89 +1939,92 @@ html body:has(.caso_formulario) .footer {
 
 /* Mis casos (cliente) */
 body:has(main.usuarios):has(a[href="nuevo_caso.php"]) {
-    --foto: url("imagenes/fondo-oficina.png");
-    --tinte-1: rgba(6, 14, 56, 0.72);  --tinte-2: rgba(5, 6, 38, 0.95);
+    --foto: url("imagenes/fondo-dizar19.jpg");
+    --tinte-1: rgba(6, 14, 56, 0.45);  --tinte-2: rgba(5, 6, 38, 0.8);
 }
 
 /* Registrar caso (cliente) */
 body:has(.caso_formulario) {
-    --foto: url("imagenes/fondo-oficina.png");
-    --tinte-1: rgba(6, 14, 56, 0.72);  --tinte-2: rgba(5, 6, 38, 0.95);
+    --foto: url("imagenes/fondo-dizar16.jpg");
+    --tinte-1: rgba(8, 4, 46, 0.62);  --tinte-2: rgba(6, 2, 34, 0.9);
 }
 
 /* Detalle de un caso */
 body:has(main.usuarios):has(.caso_datos) {
-    --foto: url("imagenes/fondo-oficina.png");
-    --tinte-1: rgba(8, 10, 52, 0.74);  --tinte-2: rgba(6, 4, 36, 0.95);
+    --foto: url("imagenes/fondo-dizar3.jpg");
+    --tinte-1: rgba(8, 4, 46, 0.62);  --tinte-2: rgba(6, 2, 34, 0.9);
 }
 
 /* Casos (abogado y admin) */
 body:has(main.casos) {
-    --foto: url("imagenes/fondo-oficina.png");
-    --tinte-1: rgba(30, 8, 44, 0.74);  --tinte-2: rgba(14, 2, 30, 0.95);
+    --foto: url("imagenes/fondo-dizar17.jpg");
+    --tinte-1: rgba(30, 8, 44, 0.45);  --tinte-2: rgba(14, 2, 30, 0.8);
 }
 
 /* Consultas (abogado y admin) */
 body:has(main.consultas) {
-    --foto: url("imagenes/fondo-oficina.png");
-    --tinte-1: rgba(34, 10, 40, 0.74); --tinte-2: rgba(14, 2, 28, 0.95);
+    --foto: url("imagenes/fondo-dizar4.jpg");
+    --tinte-1: rgba(34, 10, 40, 0.45); --tinte-2: rgba(14, 2, 28, 0.8);
 }
 
 /* Abogados (admin) */
 body:has(main.usuarios):has(.caso_subtitulo):not(:has(.caso_datos)) {
-    --foto: url("imagenes/fondo-oficina.png");
-    --tinte-1: rgba(4, 24, 44, 0.74);  --tinte-2: rgba(3, 8, 32, 0.95);
+    --foto: url("imagenes/fondo-dizar1.jpg");
+    --tinte-1: rgba(4, 24, 44, 0.45);  --tinte-2: rgba(3, 8, 32, 0.8);
 }
 
 /* Usuarios (admin) */
 body:has(main.usuarios):has(.tabla-usuarios):not(:has(.caso_subtitulo)):not(:has(a[href="nuevo_caso.php"])) {
-    --foto: url("imagenes/fondo-oficina.png");
-    --tinte-1: rgba(4, 24, 44, 0.74);  --tinte-2: rgba(3, 8, 32, 0.95);
+    --foto: url("imagenes/fondo-dizar21.jpg");
+    --tinte-1: rgba(4, 24, 44, 0.45);  --tinte-2: rgba(3, 8, 32, 0.8);
 }
 
 /* Ajustes de la cuenta */
 body:has(main.ajustes) {
-    --foto: url("imagenes/fondo-oficina.png");
+    --foto: url("imagenes/fondo-dizar16.jpg");
 }
 
 /* Nosotros */
 body:has(.nosotros_intro) {
-    --foto: url("imagenes/fondo-oficina.png");
+    --foto: url("imagenes/fondo-dizar14.jpg");
+    --tinte-1: rgba(8, 4, 46, 0.62);  --tinte-2: rgba(6, 2, 34, 0.9);
 }
 
 /* Servicios */
 body:has(.servicios) {
-    --foto: url("imagenes/fondo-oficina.png");
-    --tinte-1: rgba(14, 6, 52, 0.74);  --tinte-2: rgba(8, 2, 38, 0.95);
+    --foto: url("imagenes/fondo-dizar17.jpg");
+    --tinte-1: rgba(8, 4, 46, 0.62);  --tinte-2: rgba(6, 2, 34, 0.9);
 }
 
 /* Contacto */
 body:has(.contacto_info) {
-    --foto: url("imagenes/fondo-oficina.png");
+    --foto: url("imagenes/fondo-dizar3.jpg");
+    --tinte-1: rgba(8, 4, 46, 0.62);  --tinte-2: rgba(6, 2, 34, 0.9);
 }
 
 /* Opiniones */
 body:has(.opiniones) {
-    --foto: url("imagenes/fondo-oficina.png");
+    --foto: url("imagenes/fondo-dizar21.jpg");
+    --tinte-1: rgba(8, 4, 46, 0.62);  --tinte-2: rgba(6, 2, 34, 0.9);
 }
 
 /* Iniciar sesión */
 .pagina-login:has(a[href="recuperar.php"]) {
-    --foto: url("imagenes/fondo-oficina.png");
+    --foto: url("imagenes/fondo-dizar1.jpg");
 }
 
 /* Crear cuenta */
 .pagina-login:has(#numero_documento),
 .pagina-login:has(a.btn[href="login.php"]) {
-    --foto: url("imagenes/fondo-oficina.png");
+    --foto: url("imagenes/fondo-dizar2.jpg");
 }
 
 /* Recuperar contraseña */
 .pagina-login:has(.pie a[href="login.php"]):not(:has(#numero_documento)) {
-    --foto: url("imagenes/fondo-oficina.png");
+    --foto: url("imagenes/fondo-dizar21.jpg");
 }
 
 /* Mi cuenta (panel del usuario) */
 .pagina-login:has(.btn--bloque) {
-    --foto: url("imagenes/fondo-oficina.png");
+    --foto: url("imagenes/fondo-dizar4.jpg");
 }
