@@ -1935,7 +1935,7 @@ html body:has(.caso_formulario) .footer {
 }
 
 
-/* ---------- FOTO DE CADA PÁGINA (aquí sí se cambia) ---------- */
+/*FOTO DE CADA PÁGINA (aquí sí se cambia)*/
 
 /* Mis casos (cliente) */
 body:has(main.usuarios):has(a[href="nuevo_caso.php"]) {
@@ -2027,4 +2027,230 @@ body:has(.opiniones) {
 /* Mi cuenta (panel del usuario) */
 .pagina-login:has(.btn--bloque) {
     --foto: url("imagenes/fondo-dizar4.jpg");
+}
+
+
+/*Pégalo después de los estilos del header / perfil_menu */
+
+.notif_campana {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 14px;
+    color: #c9a45c;
+    text-decoration: none;
+}
+
+.notif_icono {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.notif_contador {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 9px;
+    background: #d64545;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notif_lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.notif_item {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.notif_item--nueva {
+    border-color: #c9a45c;
+    background: rgba(201, 164, 92, 0.10);
+    font-weight: 600;
+}
+
+.notif_fecha {
+    font-size: 12px;
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+
+.chat_lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 420px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.chat_msg {
+    max-width: 75%;
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    align-self: flex-start;
+}
+
+.chat_msg--propio {
+    align-self: flex-end;
+    border-color: #c9a45c;
+    background: rgba(201, 164, 92, 0.10);
+}
+
+.chat_msg_meta {
+    font-size: 12px;
+    opacity: 0.7;
+    margin: 0 0 4px;
+}
+
+.chat_msg_texto {
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.chat_form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat_form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    resize: vertical;
+}
+
+
+
+.campos-cita {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+
+@media (max-width: 600px) {
+    .chat_msg {
+        max-width: 90%;
+    }
+
+    .notif_item {
+        flex-direction: column;
+        gap: 4px;
+    }
+}
+
+/* documentos y avances de un caso*/
+.doc_lista {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.doc_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.doc_info {
+    min-width: 0;
+}
+
+.doc_nombre {
+    color: var(--color-dorado);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.doc_nombre:hover,
+.doc_nombre:focus-visible {
+    text-decoration: underline;
+}
+
+.doc_descripcion {
+    margin: 4px 0 0;
+    overflow-wrap: anywhere;
+}
+
+.doc_meta {
+    margin: 4px 0 0;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.doc_form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.doc_form label {
+    font-size: 0.9rem;
+    color: var(--color-dorado);
+}
+
+.doc_form input[type="file"],
+.doc_form input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    background: var(--color-negro);
+    color: var(--color-blanco);
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+.doc_form input:focus {
+    outline: none;
+    border-color: var(--color-dorado);
+}
+
+.doc_form .btn {
+    align-self: flex-start;
+}
+
+@media (max-width: 600px) {
+    .doc_item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
