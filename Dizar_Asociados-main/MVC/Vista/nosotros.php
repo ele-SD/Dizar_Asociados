@@ -16,7 +16,7 @@ $base = '../';
     <main>
         <section class="nosotros_intro">
             <p class="nosotros_antetitulo">Quiénes somos</p>
-            <h1 class="nosotros_titulo">Compromiso, ética y resultados</h1>
+            <h1 class="nosotros_titulo">Compromiso, Ética y Resultados</h1>
             <p class="nosotros_texto">
                 Dizar Asociados es una firma de abogados con sede en Montelíbano, Córdoba, dedicada a brindar
                 asesoría legal especializada en derecho civil, de familia y laboral. Nuestro enfoque combina

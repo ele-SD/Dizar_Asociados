@@ -33,7 +33,7 @@ function viejo(array $viejos, string $campo): string {
     <main>
         <section class="contacto">
             <p class="contacto_antetitulo">Hablemos</p>
-            <h1 class="contacto_titulo">Agenda tu consulta</h1>
+            <h1 class="contacto_titulo">Agenda Tu Consulta</h1>
             <p class="contacto_intro">
                 Escríbenos y uno de nuestros abogados se pondrá en contacto contigo a la brevedad.
             </p>

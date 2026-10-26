@@ -16,7 +16,7 @@ $base = '../';
 <main>
     <section class="servicios">
         <p class="servicios_antetitulo">Especialidades</p>
-        <h1 class="servicios_titulo">Áreas de practica</h1>
+        <h1 class="servicios_titulo">Áreas De Practica</h1>
         <p class="servicios_intro">
             Ofrecemos asesoría legal especializada, eficiente y ética con enfoque en consultoria, negociación litigios con resultados altamente exitosos.
         </p>
