@@ -70,17 +70,17 @@ $stmt->close();
             <tbody>
                 <?php foreach ($casos as $c): ?>
                 <tr>
-                    <td><?= htmlspecialchars(substr($c["creado_en"], 0, 10)) ?></td>
-                    <td><a href="caso.php?id=<?= (int) $c["id"] ?>"><?= htmlspecialchars($c["titulo"]) ?></a></td>
-                    <td><?= htmlspecialchars(CASO_TIPOS[$c["tipo"]] ?? $c["tipo"]) ?></td>
-                    <td><?= htmlspecialchars($c["servicio"] ?? "Sin área") ?></td>
-                    <td><?= htmlspecialchars($c["abogado"] ?? "Por asignar") ?></td>
-                    <td>
+                    <td data-label="Registrado"><?= htmlspecialchars(substr($c["creado_en"], 0, 10)) ?></td>
+                    <td data-label="Caso"><a href="caso.php?id=<?= (int) $c["id"] ?>"><?= htmlspecialchars($c["titulo"]) ?></a></td>
+                    <td data-label="Tipo"><?= htmlspecialchars(CASO_TIPOS[$c["tipo"]] ?? $c["tipo"]) ?></td>
+                    <td data-label="Área"><?= htmlspecialchars($c["servicio"] ?? "Sin área") ?></td>
+                    <td data-label="Abogado"><?= htmlspecialchars($c["abogado"] ?? "Por asignar") ?></td>
+                    <td data-label="Estado">
                         <span class="caso_estado caso_estado--<?= htmlspecialchars($c["estado"]) ?>">
                             <?= htmlspecialchars(CASO_ESTADOS[$c["estado"]] ?? $c["estado"]) ?>
                         </span>
                     </td>
-                    <td><?= htmlspecialchars(substr($c["actualizado_en"], 0, 16)) ?></td>
+                    <td data-label="Última novedad"><?= htmlspecialchars(substr($c["actualizado_en"], 0, 16)) ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -91,4 +91,4 @@ $stmt->close();
 
 <script src="../Controlador/script.js"></script>
 </body>
-</html>
+</html>

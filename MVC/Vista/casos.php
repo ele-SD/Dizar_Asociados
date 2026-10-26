@@ -2,9 +2,10 @@
 session_start();
 require_once __DIR__ . '/../Controlador/auth.php';
 require_once __DIR__ . '/../Controlador/casos_util.php';
+require_once __DIR__ . '/../Controlador/notificaciones_util.php';
 require_once __DIR__ . '/../Modelo/conexion.php';
 
-// Solo el personal. El admin ve todos los casos; cada abogado, solo los suyos.
+// Solo el personal. 
 requerir_rol(['admin', 'abogado']);
 
 $base = '../';
@@ -36,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $aviso  = ["tipo" => "error", "mensaje" => "Datos no válidos."];
 
     $stmt = $conexion->prepare(
-        "SELECT c.id, c.abogado_id, c.estado, s.nombre AS servicio
+        "SELECT c.id, c.cliente_id, c.titulo, c.abogado_id, c.estado, s.nombre AS servicio
          FROM casos c LEFT JOIN servicios s ON s.id = c.servicio_id
          WHERE c.id = ?"
     );
@@ -76,6 +77,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $stmt->close();
                 registrar_seguimiento($conexion, $casoId, $miId, $nuevoEstado, "Caso asignado a " . $abogado["nombre"] . ".");
                 $conexion->commit();
+
+                // Avisar al cliente y al abogado
+                notificar_asignacion($conexion, $casoId, (int) $caso["cliente_id"], $caso["titulo"], $abogadoId, $abogado["nombre"]);
+
                 $aviso = ["tipo" => "exito", "mensaje" => "Caso asignado a " . $abogado["nombre"] . "."];
             } catch (Throwable $e) {
                 $conexion->rollback();
@@ -91,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $aviso = ["tipo" => "error", "mensaje" => "Estado no válido."];
         } elseif (mb_strlen($nota) > 500) {
             $aviso = ["tipo" => "error", "mensaje" => "La nota es demasiado larga (máximo 500 caracteres)."];
-                    } elseif ($nuevoEstado !== "recibido" && $caso["abogado_id"] === null) {
+        } elseif ($nuevoEstado !== "recibido" && $caso["abogado_id"] === null) {
             $aviso = ["tipo" => "error", "mensaje" => "Primero asigna un abogado a este caso."];
         } elseif ($nuevoEstado === $caso["estado"] && $nota === "") {
             $aviso = ["tipo" => "error", "mensaje" => "No hay nada que guardar: cambia el estado o escribe una nota."];
@@ -104,6 +109,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $stmt->close();
                 registrar_seguimiento($conexion, $casoId, $miId, $nuevoEstado, $nota);
                 $conexion->commit();
+
+                // Avisar al cliente del cambio de estado o de la nueva nota
+                notificar_estado(
+                    $conexion, $casoId, (int) $caso["cliente_id"], $caso["titulo"],
+                    CASO_ESTADOS[$nuevoEstado], $nuevoEstado !== $caso["estado"]
+                );
+
                 $aviso = ["tipo" => "exito", "mensaje" => "Caso actualizado."];
             } catch (Throwable $e) {
                 $conexion->rollback();
@@ -233,14 +245,16 @@ $accionUrl = "casos.php" . ($filtro !== "" ? "?estado=" . urlencode($filtro) : "
             <tbody>
                 <?php foreach ($casos as $c): ?>
                 <tr>
-                    <td><?= htmlspecialchars(substr($c["creado_en"], 0, 10)) ?></td>
-                    <td><?= htmlspecialchars($c["cliente"]) ?></td>
-                    <td>
-                        <a href="caso.php?id=<?= (int) $c["id"] ?>"><?= htmlspecialchars($c["titulo"]) ?></a><br>
-                        <?= htmlspecialchars(CASO_TIPOS[$c["tipo"]] ?? $c["tipo"]) ?>
+                    <td data-label="Registrado"><?= htmlspecialchars(substr($c["creado_en"], 0, 10)) ?></td>
+                    <td data-label="Cliente"><?= htmlspecialchars($c["cliente"]) ?></td>
+                    <td data-label="Caso">
+                        <div>
+                            <a href="caso.php?id=<?= (int) $c["id"] ?>"><?= htmlspecialchars($c["titulo"]) ?></a><br>
+                            <?= htmlspecialchars(CASO_TIPOS[$c["tipo"]] ?? $c["tipo"]) ?>
+                        </div>
                     </td>
-                    <td><?= htmlspecialchars($c["servicio"] ?? "Sin área") ?></td>
-                    <td>
+                    <td data-label="Área"><?= htmlspecialchars($c["servicio"] ?? "Sin área") ?></td>
+                    <td data-label="Abogado">
                         <?php if ($esAdmin): ?>
                             <?php
                             // Solo los abogados del área del caso (si el caso no tiene área, todos)
@@ -270,7 +284,7 @@ $accionUrl = "casos.php" . ($filtro !== "" ? "?estado=" . urlencode($filtro) : "
                             <?= htmlspecialchars($c["abogado"] ?? "Por asignar") ?>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td data-label="Estado y nota">
                         <?php if ($esAdmin || (int) $c["abogado_id"] === $miAbogadoId): ?>
                         <form method="POST" action="<?= $accionUrl ?>" class="fila-rol">
                             <input type="hidden" name="csrf" value="<?= $_SESSION["csrf"] ?>">

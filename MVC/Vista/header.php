@@ -11,10 +11,18 @@ $esPersonal = in_array($rolActual, ["admin", "abogado"], true);
 $nombreUsuario = $_SESSION["usuario"] ?? "";
 $etiquetasRol = ["admin" => "Administrador", "abogado" => "Abogado", "cliente" => "Cliente"];
 $rolTexto = $etiquetasRol[$rolActual] ?? "";
+
+// Notificaciones sin leer (el número de la campana)
+$noLeidas = 0;
+if ($sesionActiva) {
+    require_once __DIR__ . '/../Modelo/conexion.php';
+    require_once __DIR__ . '/../Controlador/notificaciones_util.php';
+    $noLeidas = contar_notificaciones($conexion, (int) $_SESSION["usuario_id"]);
+}
 ?>
 <header class="header">
     <nav class="nav">
-                <a href="<?= $base ?>Vista/index.php" class="nav_logo">
+        <a href="<?= $base ?>Vista/index.php" class="nav_logo">
             <img src="<?= $base ?>Vista/imagenes/isotipo-dorado1.png" alt="isotipo Dizar Asociados" class="nav_logo_img">
             <span class="nav_logo_texto"> Dizar Asociados</span>
         </a>
@@ -26,6 +34,17 @@ $rolTexto = $etiquetasRol[$rolActual] ?? "";
         </ul>
 
         <?php if ($sesionActiva): ?>
+            <a href="<?= $base ?>Vista/notificaciones.php" class="notif_campana"
+               aria-label="Notificaciones<?= $noLeidas > 0 ? " ($noLeidas sin leer)" : "" ?>">
+                <svg viewBox="0 0 24 24" class="notif_icono" aria-hidden="true">
+                    <path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"></path>
+                    <path d="M10 19a2 2 0 0 0 4 0"></path>
+                </svg>
+                <?php if ($noLeidas > 0): ?>
+                    <span class="notif_contador"><?= $noLeidas > 99 ? "99+" : $noLeidas ?></span>
+                <?php endif; ?>
+            </a>
+
             <div class="perfil_menu">
                 <button class="perfil_boton" id="perfilBoton" type="button" aria-label="Menú de la cuenta">
                     <svg viewBox="0 0 24 24" class="perfil_icono">
@@ -43,6 +62,9 @@ $rolTexto = $etiquetasRol[$rolActual] ?? "";
                     </div>
 
                     <a class="perfil_enlace" href="<?= $base ?>Vista/dashboard.php">Mi cuenta</a>
+                    <a class="perfil_enlace" href="<?= $base ?>Vista/notificaciones.php">
+                        Notificaciones<?= $noLeidas > 0 ? " ($noLeidas)" : "" ?>
+                    </a>
                     <?php if ($rolActual === "cliente"): ?>
                         <a class="perfil_enlace" href="<?= $base ?>Vista/mis_casos.php">Mis casos</a>
                     <?php endif; ?>

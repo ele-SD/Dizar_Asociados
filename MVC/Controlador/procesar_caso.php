@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/casos_util.php';
+require_once __DIR__ . '/notificaciones_util.php';
 require_once __DIR__ . '/../Modelo/conexion.php';
 
 // Solo los clientes registran casos
@@ -13,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit();
 }
 
-// Token CSRF
+
 if (empty($_SESSION["csrf"]) || !hash_equals($_SESSION["csrf"], $_POST["csrf"] ?? "")) {
     die("Solicitud no válida.");
 }
@@ -84,5 +85,8 @@ try {
     $conexion->rollback();
     volver("error", "No pudimos registrar tu caso. Intenta de nuevo en unos minutos.", $viejos);
 }
+
+// Avisar a los administradores que llegó un caso para asignar
+notificar_nuevo_caso($conexion, $casoId, $titulo);
 
 volver("exito", "Recibimos tu caso. Te avisaremos cuando un abogado lo tome.", [], "mis_casos.php");
