@@ -2254,3 +2254,159 @@ body:has(.opiniones) {
         align-items: flex-start;
     }
 }
+
+
+/* Cuadro oscuro con desenfoque */
+.caso_datos,
+.doc_item,
+.doc_form,
+.chat_msg,
+.chat_form,
+.notif_item {
+    background-color: rgba(10, 1, 43, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+}
+
+/* Lo nuevo o lo propio lleva una franja dorada */
+.notif_item--nueva,
+.chat_msg--propio {
+    background-image: linear-gradient(rgba(201, 161, 90, 0.14), rgba(201, 161, 90, 0.14));
+    border-color: rgba(201, 161, 90, 0.7);
+    border-left: 3px solid var(--color-dorado, #C9A15A);
+}
+
+.notif_item:hover,
+.notif_item:focus-visible {
+    border-color: var(--color-dorado, #C9A15A);
+}
+
+/* Detalle del caso */
+.caso_datos {
+    padding: 20px 24px;
+}
+
+/* La descripción y el seguimiento también quedan sobre un cuadro */
+.caso_descripcion,
+.caso_linea {
+    padding: 16px 20px;
+    background-color: rgba(10, 1, 43, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+}
+
+.caso_descripcion {
+    max-width: none;
+}
+
+.caso_linea {
+    margin-left: 0;
+    border-left: 3px solid var(--color-dorado, #C9A15A);
+}
+
+/* Documentos */
+.doc_item {
+    padding: 14px 18px;
+}
+
+.doc_form {
+    padding: 20px;
+}
+
+.doc_form input[type="file"]::file-selector-button {
+    margin-right: 12px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background: var(--color-dorado, #C9A15A);
+    color: var(--color-azul-oscuro, #0A012B);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Chat */
+.chat_form {
+    padding: 18px 20px;
+}
+
+.chat_form_etiqueta {
+    font-family: var(--fuente-titulos, 'poppins', sans-serif);
+    font-size: 0.9rem;
+    color: var(--color-dorado, #C9A15A);
+}
+
+.chat_form textarea {
+    background: rgba(0, 0, 0, 0.55);
+    color: var(--color-blanco, #FFFFFF);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.chat_form textarea:focus {
+    outline: none;
+    border-color: var(--color-dorado, #C9A15A);
+}
+
+.chat_form .btn {
+    align-self: flex-start;
+}
+
+/*  Notificaciones  */
+.notif_texto {
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* Agenda de citas (consultas) */
+main.consultas {
+    max-width: 1250px;
+}
+
+.form-cita {
+    grid-template-columns: auto minmax(0, 1fr);
+    min-width: 190px;
+    max-width: 240px;
+}
+
+.form-cita .sel-estado {
+    width: 100%;
+    min-width: 0;
+}
+
+/* Abogado y fecha ocupan todo el ancho, debajo del estado */
+.form-cita .campos-cita {
+    grid-column: 1 / -1;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 2px;
+}
+
+.form-cita .campos-cita select,
+.form-cita .campos-cita input {
+    width: 100%;
+    min-width: 0;
+    padding: 8px;
+    background: var(--color-negro, #000);
+    color: var(--color-blanco, #FFFFFF);
+    border: 1px solid #333;
+    border-radius: 5px;
+    color-scheme: dark;
+    font-family: inherit;
+}
+
+.form-cita .campos-cita select:focus,
+.form-cita .campos-cita input:focus {
+    outline: none;
+    border-color: var(--color-dorado, #C9A15A);
+}
+
+/* Foto de fondo de Notificaciones */
+body:has(.notif_lista) {
+    --foto: url("imagenes/fondo-dizar19.jpg");
+}
