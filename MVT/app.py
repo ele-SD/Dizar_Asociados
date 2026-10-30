@@ -3,6 +3,7 @@ import secrets
 
 from flask import Flask, abort, redirect, render_template, request, session, url_for
 
+from Modelo.conexion import consultar_todos, consultar_uno, ejecutar
 from Vista.ajustes import actualizar_perfil, cambiar_contrasena, obtener_datos
 from Vista.auth import contexto_sesion, intentar_login, requerir_login
 from Vista.cuentas import crear_cuenta, solicitar_recuperacion
@@ -196,6 +197,87 @@ def notificaciones():
     lista = listar_notificaciones(mi_id)
     sin_leer = sum(1 for n in lista if not n["leida"])
     return render_template("notificaciones.html", notificaciones=lista, sin_leer=sin_leer, csrf=csrf)
+
+
+# ---------- Opiniones ----------
+
+@app.route("/opiniones", methods=["GET", "POST"])
+def opiniones():
+    csrf = asegurar_csrf()
+
+    if request.method == "POST":
+        if not csrf_valido():
+            abort(400, "Solicitud no válida.")
+
+        # Honeypot anti-spam: un humano nunca llena este campo (está oculto)
+        if request.form.get("sitio_web"):
+            return redirect(url_for("opiniones"))
+
+        if "usuario_id" not in session:
+            return redirect(url_for("login"))
+
+        viejos = {
+            "abogado_id": request.form.get("abogado_id", "0").strip(),
+            "calificacion": request.form.get("calificacion", "").strip(),
+            "comentario": request.form.get("comentario", "").strip()[:1000],
+        }
+
+        try:
+            calificacion = int(viejos["calificacion"])
+            abogado_id = int(viejos["abogado_id"])
+        except ValueError:
+            calificacion, abogado_id = 0, 0
+
+        error = ""
+        if not 1 <= calificacion <= 5:
+            error = "Selecciona una calificación entre 1 y 5."
+        elif len(viejos["comentario"]) < 1:
+            error = "Escribe tu opinión antes de publicarla."
+        else:
+            try:
+                if abogado_id and not consultar_uno(
+                    "SELECT id FROM abogados WHERE id = %s AND activo = 1", (abogado_id,)
+                ):
+                    error = "El abogado seleccionado no es válido."
+                else:
+                    ejecutar(
+                        "INSERT INTO opiniones (usuario_id, abogado_id, calificacion, comentario) "
+                        "VALUES (%s, %s, %s, %s)",
+                        (session["usuario_id"], abogado_id or None, calificacion, viejos["comentario"]),
+                    )
+            except Exception:
+                error = "No pudimos guardar tu opinión. Intenta de nuevo en unos minutos."
+
+        if error:
+            session["flash_opiniones"] = {"tipo": "error", "mensaje": error}
+            session["viejos_opiniones"] = viejos
+        else:
+            session["flash_opiniones"] = {"tipo": "exito", "mensaje": "¡Gracias por compartir tu opinión!"}
+        return redirect(url_for("opiniones"))
+
+    # Mensaje y datos que deja el POST (se muestran una sola vez)
+    flash = session.pop("flash_opiniones", None)
+    viejos = session.pop("viejos_opiniones", {})
+
+    try:
+        abogados = consultar_todos(
+            "SELECT id, nombre, especialidad FROM abogados WHERE activo = 1 ORDER BY nombre"
+        )
+        lista = consultar_todos(
+            "SELECT o.calificacion, o.comentario, o.creado_en, u.usuario, a.nombre AS abogado "
+            "FROM opiniones o "
+            "INNER JOIN usuarios u ON u.id = o.usuario_id "
+            "LEFT JOIN abogados a ON a.id = o.abogado_id "
+            "ORDER BY o.creado_en DESC LIMIT 50"
+        )
+    except Exception:
+        abogados, lista = [], []
+        flash = {"tipo": "error", "mensaje": "No pudimos cargar las opiniones. Intenta de nuevo en unos minutos."}
+
+    return render_template(
+        "opiniones.html",
+        csrf=csrf, flash=flash, viejos=viejos, abogados=abogados, opiniones=lista,
+    )
 
 
 if __name__ == "__main__":
