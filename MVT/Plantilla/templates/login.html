@@ -1,0 +1,79 @@
+{% extends "base_login.html" %}
+
+{% block titulo %}Iniciar sesión | Dizar Asociados{% endblock %}
+
+{% block tarjeta %}
+        <a href="/" class="btn-volver" aria-label="Volver al inicio" title="Volver al inicio">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 11l9-8 9 8"/>
+                <path d="M5 10v10h5v-6h4v6h5V10"/>
+            </svg>
+        </a>
+
+        <img src="{{ url_for('static', filename='imagenes/isotipo-dorado1.png') }}" alt="Logo Dizar Asociados" class="logo">
+        <h1>Bienvenido</h1>
+        <p class="subtitulo">Inicia sesión para continuar</p>
+
+        <form action="/login" method="POST" id="formLogin" novalidate>
+            <div class="campo">
+                <label for="correo">Correo electrónico</label>
+                <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com" required
+                       value="{{ correo }}">
+                <small class="campo_msg" id="msgCorreo"></small>
+            </div>
+
+            <div class="campo{{ ' campo--error' if error else '' }}">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" name="contrasena" placeholder="••••••••" required>
+                <small class="campo_msg" id="msgContrasena" role="alert">{{ error }}</small>
+            </div>
+
+            <button type="submit" class="btn">Iniciar sesión</button>
+
+            <div class="enlaces">
+                <a href="/recuperar">¿Olvidaste tu contraseña?</a>
+            </div>
+        </form>
+
+        <p class="pie">¿No tienes cuenta? <a href="/registro">Crear cuenta</a></p>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const campoCorreo = document.getElementById("correo");
+const campoContrasena = document.getElementById("contrasena");
+
+function limpiarErrores() {
+    document.querySelectorAll(".campo--error").forEach(function (c) {
+        c.classList.remove("campo--error");
+    });
+}
+
+function mostrarError(input, mensaje) {
+    limpiarErrores();
+    const campo = input.closest(".campo");
+    campo.querySelector(".campo_msg").textContent = mensaje;
+    campo.classList.add("campo--error");
+    input.focus();
+}
+
+campoCorreo.addEventListener("input", limpiarErrores);
+campoContrasena.addEventListener("input", limpiarErrores);
+
+document.getElementById("formLogin").addEventListener("submit", function (e) {
+    const correo = campoCorreo.value.trim();
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!regexCorreo.test(correo)) {
+        mostrarError(campoCorreo, "Escribe un correo válido, por ejemplo nombre@correo.com");
+        e.preventDefault();
+        return;
+    }
+
+    if (campoContrasena.value.length < 6) {
+        mostrarError(campoContrasena, "Mínimo 6 caracteres.");
+        e.preventDefault();
+    }
+});
+</script>
+{% endblock %}

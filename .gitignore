@@ -1,1 +1,3 @@
-Controlador/config_correo.php
+.venv/
+__pycache__/
+*.pyc
