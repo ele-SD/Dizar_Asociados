@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+    <section class="opiniones">
+        <p class="opiniones_antetitulo">Experiencias de nuestros clientes</p>
+        <h1 class="opiniones_titulo">Opiniones</h1>
+        <p class="opiniones_intro">
+            Conoce lo que dicen quienes ya trabajaron con nuestros abogados y comparte tu propia experiencia.
+        </p>
+
+        {% if flash %}
+            <div class="{{ 'exito' if flash.tipo == 'exito' else 'error' }}" role="alert">
+                {{ flash.mensaje }}
+            </div>
+        {% endif %}
+
+        <!-- Formulario para opinar -->
+        <div class="opiniones_formulario">
+            <h2 class="opiniones_subtitulo">Cuéntanos tu experiencia</h2>
+
+            {% if sesion_activa %}
+                <form class="opiniones_form" method="POST" action="/opiniones">
+                    <input type="hidden" name="csrf" value="{{ csrf }}">
+
+                    <!-- Honeypot anti-spam: oculto para personas -->
+                    <div style="position:absolute; left:-9999px;" aria-hidden="true">
+                        <label for="sitio_web">No llenar este campo</label>
+                        <input type="text" id="sitio_web" name="sitio_web" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <label for="abogado_id">Abogado</label>
+                    <select id="abogado_id" name="abogado_id">
+                        <option value="0">-- Opinión general del despacho --</option>
+                        {% for a in abogados %}
+                            <option value="{{ a.id }}" {{ 'selected' if viejos.get('abogado_id', 0)|int == a.id else '' }}>
+                                {{ a.nombre }} ({{ a.especialidad }})
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="calificacion">Calificación</label>
+                    <select id="calificacion" name="calificacion" required>
+                        <option value="">-- Selecciona --</option>
+                        {% for valor, texto in [(5, 'Excelente'), (4, 'Muy bueno'), (3, 'Bueno'), (2, 'Regular'), (1, 'Malo')] %}
+                            <option value="{{ valor }}" {{ 'selected' if viejos.get('calificacion', 0)|int == valor else '' }}>
+                                {{ valor }} - {{ texto }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="comentario">Tu opinión</label>
+                    <textarea id="comentario" name="comentario" rows="5" maxlength="1000" required>{{ viejos.get('comentario', '') }}</textarea>
+
+                    <button type="submit" class="btn btn--dorado">Publicar opinión</button>
+                </form>
+            {% else %}
+                <p class="opiniones_aviso">
+                    Para dejar tu opinión necesitas <a href="/login">iniciar sesión</a>
+                    o <a href="/registro">crear una cuenta</a>.
+                </p>
+            {% endif %}
+        </div>
+
+        <!-- Listado de opiniones -->
+        <div class="opiniones_lista">
+            <h2 class="opiniones_subtitulo">Lo que dicen nuestros clientes</h2>
+
+            {% if not opiniones %}
+                <p class="opiniones_vacio">Aún no hay opiniones. ¡Sé el primero en compartir tu experiencia!</p>
+            {% else %}
+                {% for o in opiniones %}
+                    <article class="opinion_card">
+                        <p class="opinion_calificacion">
+                            Calificación: {{ o.calificacion }}/5
+                        </p>
+                        <p class="opinion_comentario">{{ o.comentario|e|replace('\n', '<br>'|safe) }}</p>
+                        <p class="opinion_autor">
+                            {{ o.usuario }}
+                            · {{ 'Sobre ' ~ o.abogado if o.abogado else 'Opinión general del despacho' }}
+                            · {{ o.creado_en.strftime('%d/%m/%Y') }}
+                        </p>
+                    </article>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
