@@ -3,13 +3,13 @@ import secrets
 
 from flask import Flask, abort, redirect, render_template, request, session, url_for
 
-from Controlador.auth import contexto_sesion, intentar_login, requerir_login
-from Controlador.contacto import AREAS, fecha_minima, procesar_contacto
+from Vista.auth import contexto_sesion, intentar_login, requerir_login
+from Vista.contacto import AREAS, fecha_minima, procesar_contacto
 
 app = Flask(
     __name__,
-    template_folder="Vista/templates",  # los .html
-    static_folder="Vista/static",       # css, js e imágenes
+    template_folder="Plantilla/templates",  # los .html
+    static_folder="Plantilla/static",       # css, js e imágenes
 )
 
 # Clave para firmar la sesión (equivale a session_start() de PHP).

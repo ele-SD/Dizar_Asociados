@@ -5,7 +5,7 @@ from functools import wraps
 import bcrypt
 from flask import abort, redirect, session, url_for
 
-from Controlador.notificaciones import contar_notificaciones
+from Vista.notificaciones import contar_notificaciones
 from Modelo.conexion import consultar_uno, ejecutar
 
 # Configuración del bloqueo por intentos fallidos
