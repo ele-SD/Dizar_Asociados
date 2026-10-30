@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block titulo %}Notificaciones | Dizar Asociados{% endblock %}
+
+{% block clase_main %}usuarios{% endblock %}
+
+{% block contenido %}
+    <div class="caso_cabecera">
+        <h1>Notificaciones</h1>
+        {% if sin_leer > 0 %}
+            <form method="POST" action="/notificaciones">
+                <input type="hidden" name="csrf" value="{{ csrf }}">
+                <input type="hidden" name="accion" value="marcar_todas">
+                <button type="submit" class="btn">Marcar todas como leídas</button>
+            </form>
+        {% endif %}
+    </div>
+
+    {% if not notificaciones %}
+        <p class="consultas_vacio">No tienes notificaciones por ahora.</p>
+    {% else %}
+        <ul class="notif_lista">
+            {% for n in notificaciones %}
+                <li>
+                    <a href="/notificaciones?ir={{ n.id }}"
+                       class="notif_item{{ '' if n.leida else ' notif_item--nueva' }}">
+                        <span class="notif_texto">{{ n.mensaje }}</span>
+                        <span class="notif_fecha">{{ n.fecha }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

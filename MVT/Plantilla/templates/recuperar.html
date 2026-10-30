@@ -1,0 +1,42 @@
+{% extends "base_login.html" %}
+
+{% block titulo %}Recuperar contraseña | Dizar Asociados{% endblock %}
+
+{% block tarjeta %}
+        <img src="{{ url_for('static', filename='imagenes/isotipo-dorado1.png') }}" alt="Logo Dizar Asociados" class="logo">
+        <h1>Recuperar contraseña</h1>
+        <p class="subtitulo">Ingresa tu correo y te enviaremos instrucciones</p>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if exito %}
+            <div class="exito">{{ exito }}</div>
+        {% endif %}
+
+        <form action="/recuperar" method="POST" id="formRecuperar" novalidate>
+            <div class="campo">
+                <label for="correo">Correo electrónico</label>
+                <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com" required>
+            </div>
+
+            <button type="submit" class="btn">Enviar instrucciones</button>
+        </form>
+
+        <p class="pie"><a href="/login">← Volver a iniciar sesión</a></p>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById("formRecuperar").addEventListener("submit", function (e) {
+    const correo = document.getElementById("correo").value.trim();
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!regexCorreo.test(correo)) {
+        alert("Ingresa un correo electrónico válido.");
+        e.preventDefault();
+    }
+});
+</script>
+{% endblock %}
